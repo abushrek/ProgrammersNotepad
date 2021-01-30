@@ -2,6 +2,6 @@
 {
     public interface ILanguageNoteEntity:INoteEntity
     {
-        ILanguageEntity Language { get; set; }
+        LanguageEntity Language { get; set; }
     }
 }
