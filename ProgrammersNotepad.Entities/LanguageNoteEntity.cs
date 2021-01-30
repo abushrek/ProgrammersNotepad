@@ -4,6 +4,6 @@ namespace ProgrammersNotepad.Entities
 {
     public class LanguageNoteEntity : BaseNoteEntity, ILanguageNoteEntity
     {
-        public ILanguageEntity Language { get; set; }
+        public LanguageEntity Language { get; set; }
     }
 }
