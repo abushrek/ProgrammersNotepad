@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using ProgrammersNotepad.DAL.Entities;
 
-namespace ProgrammersNotepad.Entities.Factories
+namespace ProgrammersNotepad.DAL.Factories
 {
     public class SqlServerDbContextFactory : IDbContextFactory<ProgrammersNotepadDbContext>
     {
@@ -14,7 +16,10 @@ namespace ProgrammersNotepad.Entities.Factories
         public ProgrammersNotepadDbContext CreateDbContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ProgrammersNotepadDbContext>();
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(_connectionString, builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
             return new ProgrammersNotepadDbContext(optionsBuilder.Options);
         }
     }

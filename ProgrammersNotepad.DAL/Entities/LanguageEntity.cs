@@ -1,6 +1,6 @@
-﻿using ProgrammersNotepad.Entities.Interfaces;
+﻿using ProgrammersNotepad.DAL.Entities.Interfaces;
 
-namespace ProgrammersNotepad.Entities
+namespace ProgrammersNotepad.DAL.Entities
 {
     public class LanguageEntity:BaseEntity,ILanguageEntity
     {
