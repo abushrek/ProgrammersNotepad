@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+using ProgrammersNotepad.DAL.Entities;
 
-namespace ProgrammersNotepad.Entities.Factories
+namespace ProgrammersNotepad.DAL.Factories
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ProgrammersNotepadDbContext>
     {
         public ProgrammersNotepadDbContext CreateDbContext(string[] args)
-            => new SqlServerDbContextFactory(@"Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog = MigrationDb;MultipleActiveResultSets = True;Integrated Security = True; ")
+            => new SqlServerDbContextFactory(@"Data Source=(LocalDB)\MSSQLLocalDB;Database=ProgrammersNotepadDb;Trusted_Connection=True;")
                 .CreateDbContext();
     }
 }

@@ -5,29 +5,43 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ProgrammersNotepad.Entities;
+using ProgrammersNotepad.DAL.Entities;
 
-namespace ProgrammersNotepad.Entities.Migrations
+namespace ProgrammersNotepad.DAL.Migrations
 {
     [DbContext(typeof(ProgrammersNotepadDbContext))]
-    [Migration("20210130092446_Initial")]
-    partial class Initial
+    [Migration("20210209183106_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.BaseNoteEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BaseUserEntityId")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LanguageSet");
+                });
+
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -40,16 +54,19 @@ namespace ProgrammersNotepad.Entities.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BaseUserEntityId");
+                    b.HasIndex("UserEntityId");
 
-                    b.ToTable("BaseNoteEntity");
+                    b.ToTable("NoteSet");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseNoteEntity");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("NoteEntity");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.BaseUserEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,29 +83,12 @@ namespace ProgrammersNotepad.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserSet");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.LanguageEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageNoteEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages");
-                });
-
-            modelBuilder.Entity("ProgrammersNotepad.Entities.LanguageNoteEntity", b =>
-                {
-                    b.HasBaseType("ProgrammersNotepad.Entities.BaseNoteEntity");
+                    b.HasBaseType("ProgrammersNotepad.DAL.Entities.NoteEntity");
 
                     b.Property<Guid?>("LanguageId")
                         .HasColumnType("uniqueidentifier");
@@ -98,23 +98,23 @@ namespace ProgrammersNotepad.Entities.Migrations
                     b.HasDiscriminator().HasValue("LanguageNoteEntity");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.BaseNoteEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.Entities.BaseUserEntity", null)
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.UserEntity", null)
                         .WithMany("ListOfNotes")
-                        .HasForeignKey("BaseUserEntityId");
+                        .HasForeignKey("UserEntityId");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.LanguageNoteEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageNoteEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.Entities.LanguageEntity", "Language")
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.LanguageEntity", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
 
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.Entities.BaseUserEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.UserEntity", b =>
                 {
                     b.Navigation("ListOfNotes");
                 });

@@ -1,4 +1,4 @@
-﻿namespace ProgrammersNotepad.Entities.Interfaces
+﻿namespace ProgrammersNotepad.DAL.Entities.Interfaces
 {
     public interface ILanguageNoteEntity:INoteEntity
     {
