@@ -7,9 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammersNotepad", "Progr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammersNotepad.DAL", "ProgrammersNotepad.DAL\ProgrammersNotepad.DAL.csproj", "{8C374E56-B23E-4EC8-B055-4C5D3C23ED72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammersNotepad.BL", "ProgrammersNotepad.BL\ProgrammersNotepad.BL.csproj", "{605C9BEE-CAB7-439C-9A9B-D0C4E9E7551A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammersNotepad.BL", "ProgrammersNotepad.BL\ProgrammersNotepad.BL.csproj", "{605C9BEE-CAB7-439C-9A9B-D0C4E9E7551A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammersNotepad.Models", "ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj", "{B0FAE335-651A-495B-8C50-988B33148FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammersNotepad.Models", "ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj", "{B0FAE335-651A-495B-8C50-988B33148FD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammersNotepad.ViewModels", "ProgrammersNotepad.ViewModels\ProgrammersNotepad.ViewModels.csproj", "{D946F771-D877-457E-88CE-C99DF2C0B3EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammersNotepad.Common", "ProgrammersNotepad.Common\ProgrammersNotepad.Common.csproj", "{0B7EAA3A-8515-4D59-AB1F-8AEAA0C9795C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammersNotepad.Views", "ProgrammersNotepad.Views\ProgrammersNotepad.Views.csproj", "{6EC89D9C-1E0C-44FF-8C5C-65AEAB6EA0FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{B0FAE335-651A-495B-8C50-988B33148FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FAE335-651A-495B-8C50-988B33148FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FAE335-651A-495B-8C50-988B33148FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D946F771-D877-457E-88CE-C99DF2C0B3EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D946F771-D877-457E-88CE-C99DF2C0B3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D946F771-D877-457E-88CE-C99DF2C0B3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D946F771-D877-457E-88CE-C99DF2C0B3EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7EAA3A-8515-4D59-AB1F-8AEAA0C9795C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7EAA3A-8515-4D59-AB1F-8AEAA0C9795C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7EAA3A-8515-4D59-AB1F-8AEAA0C9795C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7EAA3A-8515-4D59-AB1F-8AEAA0C9795C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC89D9C-1E0C-44FF-8C5C-65AEAB6EA0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC89D9C-1E0C-44FF-8C5C-65AEAB6EA0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC89D9C-1E0C-44FF-8C5C-65AEAB6EA0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC89D9C-1E0C-44FF-8C5C-65AEAB6EA0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
