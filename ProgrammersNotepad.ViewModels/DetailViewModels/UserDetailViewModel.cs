@@ -7,7 +7,7 @@ using ProgrammersNotepad.ViewModels.BaseClasses;
 
 namespace ProgrammersNotepad.ViewModels.DetailViewModels
 {
-    public class UserDetailViewModel:BaseViewModel<UserDetailModel>
+    public class UserDetailViewModel:BaseDetailViewModel<UserDetailModel>
     {
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }

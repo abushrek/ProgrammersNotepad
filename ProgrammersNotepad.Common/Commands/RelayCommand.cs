@@ -61,10 +61,5 @@ namespace ProgrammersNotepad.Common.Commands
         {
             _execute();
         }
-
-        public static void CanExecuteRefresh()
-        {
-            CommandManager.InvalidateRequerySuggested();
-        }
     }
 }
