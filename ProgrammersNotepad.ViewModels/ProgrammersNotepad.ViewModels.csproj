@@ -12,8 +12,4 @@
     <ProjectReference Include="..\ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurators\Interfaces\" />
-  </ItemGroup>
-
 </Project>
