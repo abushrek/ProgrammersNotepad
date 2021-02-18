@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProgrammersNotepad.ViewModels\ProgrammersNotepad.ViewModels.csproj" />
+    <ProjectReference Include="..\ProgrammersNotepad.Views\ProgrammersNotepad.Views.csproj" />
+  </ItemGroup>
+
 </Project>

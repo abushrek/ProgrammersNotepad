@@ -20,12 +20,14 @@ namespace ProgrammersNotepad.ViewModels.BaseClasses
             }
         }
 
-        protected BaseDetailViewModel(IFacade<TModel> facade) : base(facade)
+        protected new IDetailFacade<TModel> Facade;
+
+        protected BaseDetailViewModel(IDetailFacade<TModel> facade) : base(facade)
         {
             Model = new TModel();
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

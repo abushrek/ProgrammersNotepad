@@ -8,8 +8,8 @@ namespace ProgrammersNotepad.BL.Facades
 {
     public class NoteFacade:BaseListDetailFacade<NoteListModel,NoteDetailModel,NoteEntity>
     {
-        public NoteFacade(IRepository<NoteEntity> repository, IMapper<NoteDetailModel, NoteEntity> detailMapper, IMapper<NoteListModel, NoteEntity> listMapper) 
-            : base(repository, detailMapper, listMapper)
+        public NoteFacade(IRepository<NoteEntity> repository, IMapper<NoteDetailModel, NoteEntity> mapper, IMapper<NoteListModel, NoteEntity> listMapper) 
+            : base(repository, mapper, listMapper)
         {
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.Models.List;
@@ -13,11 +14,17 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         public UserListViewModel(IFacade<UserListModel> facade) : base(facade)
         {
             UserSelectedCommand = new RelayCommand(UserSelected);
+            Load();
         }
 
         private void UserSelected()
         {
             
+        }
+
+        public sealed override void Load()
+        {
+            Users = new ObservableCollection<UserListModel>(Facade.GetAll());
         }
     }
 }

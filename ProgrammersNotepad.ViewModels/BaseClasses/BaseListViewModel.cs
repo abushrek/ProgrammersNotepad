@@ -9,6 +9,7 @@ namespace ProgrammersNotepad.ViewModels.BaseClasses
         public ObservableCollection<TModel> Users
         {
             get;
+            protected set;
         }
 
         protected BaseListViewModel(IFacade<TModel> facade) : base(facade)

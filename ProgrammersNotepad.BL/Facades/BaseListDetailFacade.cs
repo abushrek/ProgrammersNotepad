@@ -12,7 +12,7 @@ using ProgrammersNotepad.Models.Interfaces;
 namespace ProgrammersNotepad.BL.Facades
 {
     public abstract class BaseListDetailFacade<TListModel,TDetailModel,TEntity>:
-        BaseFacade<TDetailModel,TEntity>, IListDetailFacade<TListModel, TDetailModel>
+        BaseDetailFacade<TDetailModel,TEntity>, IFacade<TListModel>
         where TEntity : IEntity where TDetailModel : IDetailModel where TListModel : IListModel
     {
         private readonly IMapper<TDetailModel, TEntity> _detailMapper;
@@ -24,23 +24,22 @@ namespace ProgrammersNotepad.BL.Facades
             _listMapper = listMapper;
         }
 
-        public IEnumerable<TListModel> GetAllListModels()
+        public new IEnumerable<TListModel> GetAll()
         {
             return Repository.GetAll().Select(_listMapper.MapEntityToModel);
         }
 
-        public async Task<IEnumerable<TListModel>> GetAllListModelsAsync(CancellationToken token = default)
+        public new async Task<IEnumerable<TListModel>> GetAllAsync(CancellationToken token = default)
         {
             return (await Repository.GetAllAsync(token)).Select(_listMapper.MapEntityToModel);
         }
 
-        public TListModel GetListModelById(Guid id)
+        public new TListModel GetById(Guid id)
         {
             return _listMapper.MapEntityToModel(Repository.GetById(id));
-
         }
 
-        public async Task<TListModel> GetListModelByIdAsync(Guid id, CancellationToken token = default)
+        public new async Task<TListModel> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _listMapper.MapEntityToModel(await Repository.GetByIdAsync(id, token));
         }

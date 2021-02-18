@@ -8,8 +8,8 @@ namespace ProgrammersNotepad.BL.Facades
 {
     public class LanguageFacade:BaseListDetailFacade<LanguageListModel,LanguageDetailModel,LanguageEntity>
     {
-        public LanguageFacade(IRepository<LanguageEntity> repository, IMapper<LanguageDetailModel, LanguageEntity> detailMapper, IMapper<LanguageListModel, LanguageEntity> listMapper) 
-            : base(repository, detailMapper, listMapper)
+        public LanguageFacade(IRepository<LanguageEntity> repository, IMapper<LanguageDetailModel, LanguageEntity> mapper, IMapper<LanguageListModel, LanguageEntity> listMapper) 
+            : base(repository, mapper, listMapper)
         {
         }
     }

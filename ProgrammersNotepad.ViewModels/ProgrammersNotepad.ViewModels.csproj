@@ -5,10 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProgrammersNotepad.API\ProgrammersNotepad.API.csproj" />
     <ProjectReference Include="..\ProgrammersNotepad.BL\ProgrammersNotepad.BL.csproj" />
     <ProjectReference Include="..\ProgrammersNotepad.Common\ProgrammersNotepad.Common.csproj" />
     <ProjectReference Include="..\ProgrammersNotepad.DAL\ProgrammersNotepad.DAL.csproj" />
     <ProjectReference Include="..\ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurators\Interfaces\" />
   </ItemGroup>
 
 </Project>

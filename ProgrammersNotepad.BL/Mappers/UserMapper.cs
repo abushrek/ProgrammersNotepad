@@ -22,7 +22,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = entity.Id,
                 Username = entity.Username,
                 Email = entity.Email,
-                ListOfNotes = entity.ListOfNotes.Select(s => _noteDetailMapper.MapEntityToModel(s)).ToList(),
+                ListOfNotes = entity.ListOfNotes?.Select(s => _noteDetailMapper.MapEntityToModel(s)).ToList(),
                 Password = entity.Password
             };
         }
