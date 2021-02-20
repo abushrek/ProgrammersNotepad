@@ -8,9 +8,9 @@ using ProgrammersNotepad.DAL.Repositories.Interfaces;
 
 namespace ProgrammersNotepad.DAL.Installers
 {
-    public class DalInstaller:IInstaller
+    public class DalInstaller:BaseDalInstaller
     {
-        public void Install(IServiceCollection serviceCollection)
+        public override void Install(IServiceCollection serviceCollection)
         {
             serviceCollection.AddDbContext<ProgrammersNotepadDbContext>(options =>
                 options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ProgrammersNotepadDb;Trusted_Connection=True;", builder =>

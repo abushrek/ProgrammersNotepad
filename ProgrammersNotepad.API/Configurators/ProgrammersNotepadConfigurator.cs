@@ -10,14 +10,5 @@ namespace ProgrammersNotepad.API.Configurators
         public ProgrammersNotepadConfigurator(IServiceCollection service) : base(service)
         {
         }
-
-        public override void Configure(params IInstaller[] installers)
-        {
-            foreach (IInstaller installer in installers)
-            {
-                installer.Install(Service);
-            }
-            base.Configure();
-        }
     }
 }

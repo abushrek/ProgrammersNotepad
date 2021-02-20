@@ -4,9 +4,9 @@ using ProgrammersNotepad.ViewModels.DetailViewModels;
 
 namespace ProgrammersNotepad.ViewModels.Installer
 {
-    public class ViewModelsInstaller:IInstaller
+    public class ViewModelsInstaller:BaseViewModelsInstaller
     {
-        public void Install(IServiceCollection serviceCollection)
+        public override void Install(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<UserDetailViewModel>();
         }

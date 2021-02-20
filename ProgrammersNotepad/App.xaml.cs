@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using ProgrammersNotepad.ViewModels;
+using ProgrammersNotepad.API;
+using ProgrammersNotepad.BL.Installers;
+using ProgrammersNotepad.DAL.Installers;
+using ProgrammersNotepad.ViewModels.Installer;
 
 namespace ProgrammersNotepad
 {
@@ -16,7 +19,7 @@ namespace ProgrammersNotepad
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            InitializerOfObjects.Initialize(new ServiceCollection());
+            InitializerOfObjects.Initialize(new ServiceCollection(), new DalInstaller(), new ViewModelsInstaller(), new BlInstaller());
             base.OnStartup(e);
         }
     }

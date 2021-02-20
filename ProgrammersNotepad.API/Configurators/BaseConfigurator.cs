@@ -16,6 +16,10 @@ namespace ProgrammersNotepad.API.Configurators
 
         public virtual void Configure(params IInstaller[] installers)
         {
+            foreach (IInstaller installer in installers)
+            {
+                installer.Install(Service);
+            }
             ServiceProvider = Service.BuildServiceProvider();
         }
     }

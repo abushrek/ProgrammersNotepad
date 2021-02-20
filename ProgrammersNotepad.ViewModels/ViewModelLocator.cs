@@ -1,4 +1,5 @@
-﻿using ProgrammersNotepad.ViewModels.DetailViewModels;
+﻿using ProgrammersNotepad.API;
+using ProgrammersNotepad.ViewModels.DetailViewModels;
 
 namespace ProgrammersNotepad.ViewModels
 {

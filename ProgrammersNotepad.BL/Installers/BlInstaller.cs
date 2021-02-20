@@ -10,9 +10,9 @@ using ProgrammersNotepad.Models.List;
 
 namespace ProgrammersNotepad.BL.Installers
 {
-    public class BlInstaller:IInstaller
+    public class BlInstaller:BaseBlInstaller
     {
-        public void Install(IServiceCollection serviceCollection)
+        public override void Install(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IMapper<UserDetailModel, UserEntity>, UserMapper>();
             serviceCollection.AddTransient<IMapper<UserListModel, UserEntity>, UserMapper>();
