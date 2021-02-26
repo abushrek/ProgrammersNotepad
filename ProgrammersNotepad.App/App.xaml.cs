@@ -7,7 +7,7 @@ using ProgrammersNotepad.BL.Services;
 using ProgrammersNotepad.DAL.Installers;
 using ProgrammersNotepad.ViewModels.Installer;
 
-namespace ProgrammersNotepad
+namespace ProgrammersNotepad.App
 {
     /// <summary>
     /// Interaction logic for App.xaml
