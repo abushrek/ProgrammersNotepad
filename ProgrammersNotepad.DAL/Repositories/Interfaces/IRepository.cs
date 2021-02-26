@@ -18,5 +18,7 @@ namespace ProgrammersNotepad.DAL.Repositories.Interfaces
         Task<TEntity> AddAsync(TEntity entity, CancellationToken token = default);
         void Update(TEntity entity);
         Task UpdateAsync(TEntity entity, CancellationToken token = default);
+        bool Exists(TEntity entity);
+        Task<bool> ExistsAsync(TEntity entity);
     }
 }

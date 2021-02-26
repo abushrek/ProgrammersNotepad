@@ -8,7 +8,7 @@ namespace ProgrammersNotepad.BL.Facades
 {
     public class UserFacade:BaseListDetailFacade<UserListModel, UserDetailModel, UserEntity>
     {
-        public UserFacade(IRepository<UserEntity> repository, IMapper<UserDetailModel, UserEntity> mapper, IMapper<UserListModel, UserEntity> listMapper) 
+        public UserFacade(IUserRepository<UserEntity> repository, IMapper<UserDetailModel, UserEntity> mapper, IMapper<UserListModel, UserEntity> listMapper) 
             : base(repository, mapper, listMapper)
         {
         }

@@ -20,7 +20,7 @@ namespace ProgrammersNotepad.DAL.Installers
             serviceCollection.AddTransient<IRepository<LanguageNoteEntity>, LanguageNoteRepository>();
             serviceCollection.AddTransient<IRepository<LanguageEntity>, LanguageRepository>();
             serviceCollection.AddTransient<IRepository<NoteEntity>, NoteRepository>();
-            serviceCollection.AddTransient<IRepository<UserEntity>, UserRepository>();
+            serviceCollection.AddTransient<IUserRepository<UserEntity>, UserRepository>();
         }
     }
 }

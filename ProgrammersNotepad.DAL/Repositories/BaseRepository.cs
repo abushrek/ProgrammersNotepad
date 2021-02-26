@@ -80,5 +80,15 @@ namespace ProgrammersNotepad.DAL.Repositories
         {
             await Task.Run(() => Update(entity), token);
         }
+
+        public bool Exists(TEntity entity)
+        {
+            return SetOfEntities.Any(s => s.Equals(entity));
+        }
+
+        public async Task<bool> ExistsAsync(TEntity entity)
+        {
+            return await SetOfEntities.AnyAsync(s => s.Equals(entity));
+        }
     }
 }

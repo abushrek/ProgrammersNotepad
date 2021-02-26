@@ -24,7 +24,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public sealed override void Load()
         {
-            Users = new ObservableCollection<UserListModel>(Facade.GetAll());
+            Models = new ObservableCollection<UserListModel>(Facade.GetAll());
         }
     }
 }

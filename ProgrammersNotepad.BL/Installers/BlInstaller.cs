@@ -3,6 +3,8 @@ using ProgrammersNotepad.BL.Facades;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers;
 using ProgrammersNotepad.BL.Mappers.Interfaces;
+using ProgrammersNotepad.BL.Services;
+using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Installers.Interfaces;
 using ProgrammersNotepad.Models.Detail;
@@ -31,6 +33,7 @@ namespace ProgrammersNotepad.BL.Installers
             serviceCollection.AddTransient<IFacade<NoteListModel>, NoteFacade>();
             serviceCollection.AddTransient<IDetailFacade<LanguageNoteDetailModel>, LanguageNoteFacade>();
             serviceCollection.AddTransient<IFacade<LanguageNoteListModel>, LanguageNoteFacade>();
+            serviceCollection.AddTransient<IAuthService, AuthService>();
         }
     }
 }

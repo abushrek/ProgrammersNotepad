@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +12,7 @@
     <ProjectReference Include="..\ProgrammersNotepad.DAL\ProgrammersNotepad.DAL.csproj" />
     <ProjectReference Include="..\ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
+  </ItemGroup>
 </Project>

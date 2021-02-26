@@ -6,7 +6,7 @@ namespace ProgrammersNotepad.ViewModels.BaseClasses
 {
     public abstract class BaseListViewModel<TModel> : BaseViewModel<TModel> where TModel : IModel, new()
     {
-        public ObservableCollection<TModel> Users
+        public ObservableCollection<TModel> Models
         {
             get;
             protected set;
@@ -14,7 +14,7 @@ namespace ProgrammersNotepad.ViewModels.BaseClasses
 
         protected BaseListViewModel(IFacade<TModel> facade) : base(facade)
         {
-            Users = new ObservableCollection<TModel>();
+            Models = new ObservableCollection<TModel>();
         }
     }
 }

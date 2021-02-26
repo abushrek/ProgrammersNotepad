@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:listModelViews="clr-namespace:ProgrammersNotepad.Views.ListModelViews;assembly=ProgrammersNotepad.Views"
         xmlns:detailModelViews="clr-namespace:ProgrammersNotepad.Views.DetailModelViews;assembly=ProgrammersNotepad.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <detailModelViews:UserDetailModelView></detailModelViews:UserDetailModelView>
+        <detailModelViews:LoginView></detailModelViews:LoginView>
     </Grid>
 </Window>
