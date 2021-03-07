@@ -12,6 +12,11 @@ namespace ProgrammersNotepad.ViewModels.Installer
             serviceCollection.AddTransient<UserDetailViewModel>();
             serviceCollection.AddTransient<UserListViewModel>();
             serviceCollection.AddTransient<LoginViewModel>();
+            serviceCollection.AddTransient<MainWindowViewModel>();
+            serviceCollection.AddTransient<UserProfileViewModel>();
+            serviceCollection.AddTransient<NoteTypeListViewModel>();
+            serviceCollection.AddTransient<NoteListViewModel>();
+            serviceCollection.AddTransient<NoteDetailViewModel>();
         }
     }
 }

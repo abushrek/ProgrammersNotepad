@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using ProgrammersNotepad.DAL.Entities;
 
 namespace ProgrammersNotepad.DAL.Repositories
@@ -8,5 +9,6 @@ namespace ProgrammersNotepad.DAL.Repositories
         public NoteRepository(ProgrammersNotepadDbContext dbContext) : base(dbContext.NoteSet, dbContext)
         {
         }
+
     }
 }

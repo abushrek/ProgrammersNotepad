@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
+using ProgrammersNotepad.BL.Messages;
 using ProgrammersNotepad.BL.Services;
 using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.Common.Commands;
@@ -19,7 +20,7 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
 
         public ICommand LoginCommand { get; set; }
 
-        public LoginViewModel(IDetailFacade<UserDetailModel> facade, IAuthService authService) : base(facade)
+        public LoginViewModel(IDetailFacade<UserDetailModel> facade, IAuthService authService, IMediator mediator) : base(facade, mediator)
         {
             _authService = authService;
             LoginCommand = new RelayCommand<PasswordBox>(Login);
@@ -37,12 +38,15 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
                     return;
                 }
                 principal.Identity = new UserIdentity(user.Id, user.Email);
+                Mediator.Send(new LoginMessage());
             }
             catch (UnauthorizedAccessException)
             {
+                Mediator.Send(new LogoutMessage());
             }
             catch (Exception)
             {
+                Mediator.Send(new LogoutMessage());
             }
         }
     }

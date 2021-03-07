@@ -1,18 +1,20 @@
 ﻿using System;
-using ProgrammersNotepad.DAL.Entities.Interfaces;
+using System.Collections.Generic;
 
 namespace ProgrammersNotepad.DAL.Entities
 {
-    public class LanguageEntity:BaseEntity,ILanguageEntity, IEquatable<LanguageEntity>
+    public class NoteTypeEntity:BaseEntity, IEquatable<NoteTypeEntity>
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public virtual ICollection<NoteEntity> ListOfEntities { get; set; }
+        public virtual UserEntity User { get; set; }
 
-        public bool Equals(LanguageEntity other)
+        public bool Equals(NoteTypeEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Name == other.Name && Description == other.Description;
+            return base.Equals(other) && Name == other.Name && Description == other.Description && Equals(ListOfEntities, other.ListOfEntities);
         }
 
         public override bool Equals(object obj)
@@ -20,12 +22,12 @@ namespace ProgrammersNotepad.DAL.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((LanguageEntity) obj);
+            return Equals((NoteTypeEntity) obj);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Name, Description);
+            return HashCode.Combine(base.GetHashCode(), Name, Description, ListOfEntities);
         }
     }
 }

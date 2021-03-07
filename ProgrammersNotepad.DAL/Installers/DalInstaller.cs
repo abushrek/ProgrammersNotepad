@@ -17,8 +17,7 @@ namespace ProgrammersNotepad.DAL.Installers
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                 }));
-            serviceCollection.AddTransient<IRepository<LanguageNoteEntity>, LanguageNoteRepository>();
-            serviceCollection.AddTransient<IRepository<LanguageEntity>, LanguageRepository>();
+            serviceCollection.AddTransient<IRepository<NoteTypeEntity>, NoteTypeRepository>();
             serviceCollection.AddTransient<IRepository<NoteEntity>, NoteRepository>();
             serviceCollection.AddTransient<IUserRepository<UserEntity>, UserRepository>();
         }

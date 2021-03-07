@@ -11,19 +11,19 @@ using ProgrammersNotepad.Models.Interfaces;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class BaseDetailFacade<TModel, TEntity>:BaseFacade<TModel,TEntity>,IDetailFacade<TModel> where TModel : IModel where TEntity:IEntity
+    public class BaseDetailFacade<TModel, TEntity>:BaseFacade<TModel,TEntity>,IDetailFacade<TModel> where TModel : IDetailModel where TEntity:IEntity
     {
-        private readonly IMapper<TModel, TEntity> _mapper;
+        protected readonly IMapper<TModel, TEntity> Mapper;
         protected BaseDetailFacade(IRepository<TEntity> repository, IMapper<TModel, TEntity> mapper) : base(repository,mapper)
         {
-            _mapper = mapper;
+            Mapper = mapper;
         }
 
         public TModel Add(TModel model)
         {
             if (model == null)
                 throw new ArgumentNullException();
-            if (Repository.Add(_mapper.MapModelToEntity(model)) == null)
+            if (Repository.Add(Mapper.MapModelToEntity(model)) == null)
                 return default;
             return model;
         }
@@ -32,7 +32,7 @@ namespace ProgrammersNotepad.BL.Facades
         {
             if (model == null)
                 throw new ArgumentNullException();
-            if (await Repository.AddAsync(_mapper.MapModelToEntity(model), token) == null)
+            if (await Repository.AddAsync(Mapper.MapModelToEntity(model), token) == null)
             {
                 return default;
             }
@@ -53,14 +53,14 @@ namespace ProgrammersNotepad.BL.Facades
         {
             if (model == null)
                 throw new ArgumentNullException();
-            Repository.UpdateAsync(_mapper.MapModelToEntity(model));
+            Repository.UpdateAsync(Mapper.MapModelToEntity(model));
         }
 
         public async Task UpdateAsync(TModel model, CancellationToken token = default)
         {
             if (model == null)
                 throw new ArgumentNullException();
-            await Repository.UpdateAsync(_mapper.MapModelToEntity(model), token);
+            await Repository.UpdateAsync(Mapper.MapModelToEntity(model), token);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
+using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.Models.Detail;
 using ProgrammersNotepad.Models.List;
@@ -14,7 +15,7 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
 
-        public UserDetailViewModel(IDetailFacade<UserDetailModel> facade) : base(facade)
+        public UserDetailViewModel(IDetailFacade<UserDetailModel> facade, IMediator mediator) : base(facade, mediator)
         {
             SaveCommand = new RelayCommand(Save);
             DeleteCommand = new RelayCommand(Delete);

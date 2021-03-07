@@ -20,7 +20,7 @@ namespace ProgrammersNotepad.DAL.Repositories
             DbContext = dbContext;
         }
 
-        public IList<TEntity> GetAll()
+        public virtual IList<TEntity> GetAll()
         {
             return SetOfEntities.ToList();
         }
@@ -30,7 +30,7 @@ namespace ProgrammersNotepad.DAL.Repositories
             return await SetOfEntities.ToListAsync(cancellationToken: token);
         }
 
-        public TEntity GetById(Guid id)
+        public virtual TEntity GetById(Guid id)
         {
             return SetOfEntities.FirstOrDefault(s => s.Id == id);
         }

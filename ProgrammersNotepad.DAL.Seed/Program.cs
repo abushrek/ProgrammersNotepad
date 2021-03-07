@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using ProgrammersNotepad.DAL.Entities;
 
@@ -17,12 +18,35 @@ namespace ProgrammersNotepad.DAL.Seed
 
         private static void SeedData(ProgrammersNotepadDbContext dbContext)
         {
+            NoteTypeEntity noteType = new NoteTypeEntity()
+            {
+                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b7fb803c8e1a"),
+                Name = "Type",
+                Description = "Desc",
+                ListOfEntities = new List<NoteEntity>()
+                {
+                }
+            };
+            NoteEntity note = new NoteEntity()
+            {
+                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb804c8e1a"),
+                Title = "Title",
+                Description = "Desc",
+                Type = noteType
+            };
+            noteType.ListOfEntities.Add(note);
+            dbContext.Add(note);
+            dbContext.Add(noteType);
             var user = new UserEntity
             {
                 Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb803c8e1a"),
                 Username = "john.doe",
                 Password = "pass",
                 Email = "john.doe@example.com",
+                ListOfNoteTypes = new List<NoteTypeEntity>()
+                {
+                    noteType
+                }
             };
             dbContext.Add(user);
 
@@ -42,8 +66,7 @@ namespace ProgrammersNotepad.DAL.Seed
         {
             dbContext.RemoveRange(dbContext.UserSet);
             dbContext.RemoveRange(dbContext.NoteSet);
-            dbContext.RemoveRange(dbContext.LanguageSet);
-            dbContext.RemoveRange(dbContext.LanguageNoteSet);
+            dbContext.RemoveRange(dbContext.NoteTypeSet);
             dbContext.SaveChanges();
         }
 

@@ -6,5 +6,6 @@ namespace ProgrammersNotepad.Models.Detail
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public NoteTypeDetailModel Type { get; set; }
     }
 }

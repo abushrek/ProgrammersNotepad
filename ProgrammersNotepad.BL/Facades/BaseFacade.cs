@@ -22,24 +22,26 @@ namespace ProgrammersNotepad.BL.Facades
             _mapper = mapper;
         }
 
-        public IEnumerable<TModel> GetAll()
+        public IList<TModel> GetAll()
         {
-            return Repository.GetAll().Select(_mapper.MapEntityToModel);
+            return Repository.GetAll().Select(_mapper.MapEntityToModel).ToList();
         }
 
-        public async Task<IEnumerable<TModel>> GetAllAsync(CancellationToken token = default)
+        public async Task<IList<TModel>> GetAllAsync(CancellationToken token = default)
         {
-            return (await Repository.GetAllAsync(token)).Select(_mapper.MapEntityToModel);
+            return (await Repository.GetAllAsync(token)).Select(_mapper.MapEntityToModel).ToList();
         }
 
         public TModel GetById(Guid id)
         {
-            return _mapper.MapEntityToModel(Repository.GetById(id));
+            TEntity tmp = Repository.GetById(id);
+            return tmp != null ? _mapper.MapEntityToModel(tmp) : default;
         }
 
         public async Task<TModel> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return _mapper.MapEntityToModel(await Repository.GetByIdAsync(id, token));
+            TEntity tmp = await Repository.GetByIdAsync(id, token);
+            return tmp != null ? _mapper.MapEntityToModel(tmp) : default;
         }
 
         public bool ModelExists(Guid id)

@@ -9,13 +9,13 @@ namespace ProgrammersNotepad.DAL.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public List<NoteEntity> ListOfNotes { get; set; }
+        public virtual ICollection<NoteTypeEntity> ListOfNoteTypes { get; set; }
 
         public bool Equals(UserEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Username == other.Username && Password == other.Password && Email == other.Email && Equals(ListOfNotes, other.ListOfNotes);
+            return base.Equals(other) && Username == other.Username && Password == other.Password && Email == other.Email && Equals(ListOfNoteTypes, other.ListOfNoteTypes);
         }
 
         public override bool Equals(object obj)
@@ -28,7 +28,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Username, Password, Email, ListOfNotes);
+            return HashCode.Combine(base.GetHashCode(), Username, Password, Email, ListOfNoteTypes);
         }
     }
 }

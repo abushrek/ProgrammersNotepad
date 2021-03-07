@@ -15,33 +15,35 @@ namespace ProgrammersNotepad.BL.Facades
         BaseDetailFacade<TDetailModel,TEntity>, IFacade<TListModel>
         where TEntity : IEntity where TDetailModel : IDetailModel where TListModel : IListModel
     {
-        private readonly IMapper<TDetailModel, TEntity> _detailMapper;
-        private readonly IMapper<TListModel, TEntity> _listMapper;
+        protected readonly IMapper<TDetailModel, TEntity> DetailMapper;
+        protected readonly IMapper<TListModel, TEntity> ListMapper;
 
         protected BaseListDetailFacade(IRepository<TEntity> repository, IMapper<TDetailModel, TEntity> detailMapper, IMapper<TListModel, TEntity> listMapper) : base(repository,detailMapper)
         {
-            _detailMapper = detailMapper;
-            _listMapper = listMapper;
+            DetailMapper = detailMapper;
+            ListMapper = listMapper;
         }
 
-        public new IEnumerable<TListModel> GetAll()
+        public new IList<TListModel> GetAll()
         {
-            return Repository.GetAll().Select(_listMapper.MapEntityToModel);
+            return Repository.GetAll().Select(ListMapper.MapEntityToModel).ToList();
         }
 
-        public new async Task<IEnumerable<TListModel>> GetAllAsync(CancellationToken token = default)
+        public new async Task<IList<TListModel>> GetAllAsync(CancellationToken token = default)
         {
-            return (await Repository.GetAllAsync(token)).Select(_listMapper.MapEntityToModel);
+            return (await Repository.GetAllAsync(token)).Select(ListMapper.MapEntityToModel).ToList();
         }
 
         public new TListModel GetById(Guid id)
         {
-            return _listMapper.MapEntityToModel(Repository.GetById(id));
+            TEntity tmp = Repository.GetById(id);
+            return tmp != null ? ListMapper.MapEntityToModel(tmp) : default;
         }
 
         public new async Task<TListModel> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return _listMapper.MapEntityToModel(await Repository.GetByIdAsync(id, token));
+            TEntity tmp = await Repository.GetByIdAsync(id, token);
+            return tmp != null ? ListMapper.MapEntityToModel(tmp) : default;
         }
     }
 }

@@ -18,22 +18,23 @@ namespace ProgrammersNotepad.BL.Installers
         {
             serviceCollection.AddTransient<IMapper<UserDetailModel, UserEntity>, UserMapper>();
             serviceCollection.AddTransient<IMapper<UserListModel, UserEntity>, UserMapper>();
-            serviceCollection.AddTransient<IMapper<LanguageDetailModel, LanguageEntity>, LanguageMapper>();
-            serviceCollection.AddTransient<IMapper<LanguageListModel, LanguageEntity>, LanguageMapper>();
+            serviceCollection.AddTransient<IMapper<NoteTypeDetailModel, NoteTypeEntity>, NoteTypeMapper>();
+            serviceCollection.AddTransient<IMapper<NoteTypeListModel, NoteTypeEntity>, NoteTypeMapper>();
             serviceCollection.AddTransient<IMapper<NoteDetailModel, NoteEntity>, NoteMapper>();
             serviceCollection.AddTransient<IMapper<NoteListModel, NoteEntity>, NoteMapper>();
-            serviceCollection.AddTransient<IMapper<LanguageNoteDetailModel, LanguageNoteEntity>, LanguageNoteMapper>();
-            serviceCollection.AddTransient<IMapper<LanguageNoteListModel, LanguageNoteEntity>, LanguageNoteMapper>();
 
             serviceCollection.AddTransient<IDetailFacade<UserDetailModel>, UserFacade>();
             serviceCollection.AddTransient<IFacade<UserListModel>, UserFacade>();
-            serviceCollection.AddTransient<IDetailFacade<LanguageDetailModel>, LanguageFacade>();
-            serviceCollection.AddTransient<IFacade<LanguageListModel>, LanguageFacade>();
+            serviceCollection.AddTransient<IDetailFacade<NoteTypeDetailModel>, NoteTypeFacade>();
+            serviceCollection.AddTransient<IFacade<NoteTypeListModel>, NoteTypeFacade>();
+            serviceCollection.AddTransient<INoteTypeFacade, NoteTypeFacade>();
             serviceCollection.AddTransient<IDetailFacade<NoteDetailModel>, NoteFacade>();
             serviceCollection.AddTransient<IFacade<NoteListModel>, NoteFacade>();
-            serviceCollection.AddTransient<IDetailFacade<LanguageNoteDetailModel>, LanguageNoteFacade>();
-            serviceCollection.AddTransient<IFacade<LanguageNoteListModel>, LanguageNoteFacade>();
+            serviceCollection.AddTransient<INoteFacade, NoteFacade>();
             serviceCollection.AddTransient<IAuthService, AuthService>();
+
+            serviceCollection.AddSingleton<IMediator, Mediator>();
+
         }
     }
 }

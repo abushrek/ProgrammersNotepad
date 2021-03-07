@@ -8,11 +8,11 @@ namespace ProgrammersNotepad.BL.Mappers
 {
     public class UserMapper:IMapper<UserDetailModel,UserEntity>, IMapper<UserListModel,UserEntity>
     {
-        private IMapper<NoteDetailModel, NoteEntity> _noteDetailMapper;
+        private IMapper<NoteTypeDetailModel, NoteTypeEntity> _noteDetailMapper;
 
         public UserMapper()
         {
-            _noteDetailMapper = new NoteMapper();
+            _noteDetailMapper = new NoteTypeMapper();
         }
 
         UserDetailModel IMapper<UserDetailModel, UserEntity>.MapEntityToModel(UserEntity entity)
@@ -22,7 +22,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = entity.Id,
                 Username = entity.Username,
                 Email = entity.Email,
-                ListOfNotes = entity.ListOfNotes?.Select(s => _noteDetailMapper.MapEntityToModel(s)).ToList(),
+                ListOfNoteTypes = entity.ListOfNoteTypes?.Select(s => _noteDetailMapper.MapEntityToModel(s)).ToList(),
                 Password = entity.Password
             };
         }
@@ -44,7 +44,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Username = model.Username,
                 Email = model.Email,
-                ListOfNotes = model.ListOfNotes.Select(s => _noteDetailMapper.MapModelToEntity(s)).ToList(),
+                ListOfNoteTypes = model.ListOfNoteTypes.Select(s => _noteDetailMapper.MapModelToEntity(s)).ToList(),
                 Password = model.Password
             };
         }

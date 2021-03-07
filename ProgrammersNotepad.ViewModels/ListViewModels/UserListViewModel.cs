@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
+using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.Models.List;
 using ProgrammersNotepad.ViewModels.BaseClasses;
@@ -11,7 +12,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
     {
         public ICommand UserSelectedCommand;
 
-        public UserListViewModel(IFacade<UserListModel> facade) : base(facade)
+        public UserListViewModel(IFacade<UserListModel> facade, IMediator mediator) : base(facade, mediator)
         {
             UserSelectedCommand = new RelayCommand(UserSelected);
             Load();

@@ -4,11 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:detailViewModels="clr-namespace:ProgrammersNotepad.ViewModels.DetailViewModels;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance detailViewModels:UserDetailViewModel}"
              DataContext="{Binding Source={StaticResource ViewModelLocator},Path=UserDetailViewModel}">
+    <UserControl.Resources>
+        <system:String x:Key="Email">Email: </system:String>
+        <system:String x:Key="Username">Username: </system:String>
+        <system:String x:Key="Password">Password: </system:String>
+    </UserControl.Resources>
     <Grid>
-        <TextBox Text="{Binding Model.Username}"></TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="{DynamicResource Email}"></Label>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Model.Email}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="1" Content="{DynamicResource Username}"></Label>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Model.Username}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="2" Content="{DynamicResource Password}"></Label>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Model.Password}"></TextBox>
     </Grid>
 </UserControl>

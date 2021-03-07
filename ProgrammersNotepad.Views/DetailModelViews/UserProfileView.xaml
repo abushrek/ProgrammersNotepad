@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="ProgrammersNotepad.Views.DetailModelViews.UserProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProgrammersNotepad.Views.DetailModelViews"
+             xmlns:detailViewModels="clr-namespace:ProgrammersNotepad.ViewModels.DetailViewModels;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance detailViewModels:UserProfileViewModel}"
+             DataContext="{Binding Source={StaticResource ViewModelLocator},Path=UserProfileViewModel}">
+    <UserControl.Resources>
+        <system:String x:Key="Email">Email:</system:String>
+        <system:String x:Key="Username">Username:</system:String>
+        <system:String x:Key="Password">Password:</system:String>
+        <system:String x:Key="Remove">Remove</system:String>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Content="{DynamicResource Email}" Margin="5"></Label>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Model.Email}" Margin="5"></TextBox>
+            <Label Grid.Column="0" Grid.Row="1" Content="{DynamicResource Username}" Margin="5"></Label>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Model.Username}" Margin="5"></TextBox>
+            <Label Grid.Column="0" Grid.Row="2" Content="{DynamicResource Password}" Margin="5"></Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Model.Password}" Margin="5"></TextBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" Content="{DynamicResource Remove}" Command="{Binding RemoveUserCommand}"></Button>
+        </Grid>
+    </Grid>
+</UserControl>

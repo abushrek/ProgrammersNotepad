@@ -19,7 +19,29 @@ namespace ProgrammersNotepad.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("NoteSet");
+                });
+
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,37 +53,14 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("LanguageSet");
-                });
-
-            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("UserEntityId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserEntityId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("NoteSet");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("NoteEntity");
+                    b.ToTable("NoteTypeSet");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.UserEntity", b =>
@@ -84,37 +83,34 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.ToTable("UserSet");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageNoteEntity", b =>
-                {
-                    b.HasBaseType("ProgrammersNotepad.DAL.Entities.NoteEntity");
-
-                    b.Property<Guid?>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasDiscriminator().HasValue("LanguageNoteEntity");
-                });
-
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.DAL.Entities.UserEntity", null)
-                        .WithMany("ListOfNotes")
-                        .HasForeignKey("UserEntityId");
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", "Type")
+                        .WithMany("ListOfEntities")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.LanguageNoteEntity", b =>
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.DAL.Entities.LanguageEntity", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId");
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.UserEntity", "User")
+                        .WithMany("ListOfNoteTypes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Language");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>
+                {
+                    b.Navigation("ListOfEntities");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.UserEntity", b =>
                 {
-                    b.Navigation("ListOfNotes");
+                    b.Navigation("ListOfNoteTypes");
                 });
 #pragma warning restore 612, 618
         }

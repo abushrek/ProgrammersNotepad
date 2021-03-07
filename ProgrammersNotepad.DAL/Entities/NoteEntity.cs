@@ -3,16 +3,17 @@ using ProgrammersNotepad.DAL.Entities.Interfaces;
 
 namespace ProgrammersNotepad.DAL.Entities
 {
-    public class NoteEntity : BaseEntity, INoteEntity, IEquatable<NoteEntity>
+    public class NoteEntity : BaseEntity, IEquatable<NoteEntity>
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public virtual NoteTypeEntity Type { get; set; }
 
         public bool Equals(NoteEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Title == other.Title && Description == other.Description;
+            return base.Equals(other) && Title == other.Title && Description == other.Description && Equals(Type, other.Type);
         }
 
         public override bool Equals(object obj)
@@ -25,7 +26,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Title, Description);
+            return HashCode.Combine(base.GetHashCode(), Title, Description, Type);
         }
     }
 }
