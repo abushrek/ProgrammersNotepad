@@ -14,6 +14,9 @@
         <Grid Visibility="{Binding LoginViewVisibility}">
             <detailModelViews:LoginView></detailModelViews:LoginView>
         </Grid>
+        <Grid Visibility="{Binding RegisterViewVisibility}">
+             <detailModelViews:RegisterView></detailModelViews:RegisterView>
+        </Grid>
         <Grid Visibility="{Binding MainViewVisibility}">
             <TabControl>
                 <TabItem Header="User">
@@ -32,6 +35,7 @@
                     </Grid>
                 </TabItem>
             </TabControl>
+            <Button Command="{Binding LogoutCommand}" Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Top"></Button>
         </Grid>
     </Grid>
 </Window>

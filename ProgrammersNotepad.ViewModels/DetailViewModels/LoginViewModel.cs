@@ -18,12 +18,20 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
     {
         private IAuthService _authService;
 
-        public ICommand LoginCommand { get; set; }
+        public ICommand LoginCommand { get; }
+
+        public ICommand RegisterCommand { get; }
 
         public LoginViewModel(IDetailFacade<UserDetailModel> facade, IAuthService authService, IMediator mediator) : base(facade, mediator)
         {
             _authService = authService;
             LoginCommand = new RelayCommand<PasswordBox>(Login);
+            RegisterCommand = new RelayCommand(Register);
+        }
+
+        private void Register()
+        {
+            Mediator.Send(new RegisterMessage());
         }
 
         public void Login(PasswordBox passwordBox)
@@ -31,14 +39,17 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
             string password = passwordBox.Password;
             try
             {
-                UserEntity user = _authService.AuthenticateUser(Model.Username, password);
+                UserDetailModel user = _authService.AuthenticateUser(Model.Username, password);
                 AuthenticationPrincipal.TCAPrincipal principal = Thread.CurrentPrincipal as AuthenticationPrincipal.TCAPrincipal;
                 if (principal == null)
                 {
                     return;
                 }
-                principal.Identity = new UserIdentity(user.Id, user.Email);
+                principal.Identity = new UserIdentity(user.Id, user.Username);
                 Mediator.Send(new LoginMessage());
+                //clearnutí textboxu a passwordboxu
+                Model = new UserDetailModel();
+                passwordBox.Password = "";
             }
             catch (UnauthorizedAccessException)
             {

@@ -17,6 +17,7 @@ namespace ProgrammersNotepad.ViewModels.Installer
             serviceCollection.AddTransient<NoteTypeListViewModel>();
             serviceCollection.AddTransient<NoteListViewModel>();
             serviceCollection.AddTransient<NoteDetailViewModel>();
+            serviceCollection.AddTransient<RegisterViewModel>();
         }
     }
 }

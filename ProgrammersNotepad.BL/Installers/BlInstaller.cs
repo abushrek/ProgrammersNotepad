@@ -25,14 +25,18 @@ namespace ProgrammersNotepad.BL.Installers
 
             serviceCollection.AddTransient<IDetailFacade<UserDetailModel>, UserFacade>();
             serviceCollection.AddTransient<IFacade<UserListModel>, UserFacade>();
+            serviceCollection.AddTransient<IUserFacade<UserListModel>, UserFacade>();
+            serviceCollection.AddTransient<IUserFacade<UserDetailModel>, UserFacade>();
+
             serviceCollection.AddTransient<IDetailFacade<NoteTypeDetailModel>, NoteTypeFacade>();
             serviceCollection.AddTransient<IFacade<NoteTypeListModel>, NoteTypeFacade>();
             serviceCollection.AddTransient<INoteTypeFacade, NoteTypeFacade>();
+
             serviceCollection.AddTransient<IDetailFacade<NoteDetailModel>, NoteFacade>();
             serviceCollection.AddTransient<IFacade<NoteListModel>, NoteFacade>();
             serviceCollection.AddTransient<INoteFacade, NoteFacade>();
-            serviceCollection.AddTransient<IAuthService, AuthService>();
 
+            serviceCollection.AddTransient<IAuthService, AuthService>();
             serviceCollection.AddSingleton<IMediator, Mediator>();
 
         }

@@ -47,9 +47,8 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public sealed override void Load()
         {
-            IList<NoteTypeListModel> lst = Facade.GetAllNoteTypesByUserId(_currentUserId);
-            if (lst != null)
-                Models = new ObservableCollection<NoteTypeListModel>(lst);
+            if(_currentUserId != Guid.Empty)
+                Models = new ObservableCollection<NoteTypeListModel>(Facade.GetAllNoteTypesByUserId(_currentUserId));
             base.Load();
         }
     }

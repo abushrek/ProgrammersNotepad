@@ -15,12 +15,10 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
     public class UserProfileViewModel:BaseDetailViewModel<UserDetailModel>
     {
         private Guid _currentUserGuid;
-        public ICommand LogoutCommand { get; }
         public ICommand RemoveUserCommand { get; }
 
         public UserProfileViewModel(IDetailFacade<UserDetailModel> facade, IMediator mediator) : base(facade, mediator)
         {
-            LogoutCommand = new RelayCommand(Logout);
             RemoveUserCommand = new RelayCommand(RemoveUser);
 
             mediator.Register<LoginMessage>(Login);
@@ -42,14 +40,6 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
             {
                 Facade.RemoveAsync(Model.Id);
             }
-        }
-
-        private void Logout()
-        {
-            if (Thread.CurrentPrincipal is AuthenticationPrincipal.TCAPrincipal principal) 
-                principal.Identity = null;
-
-            Mediator.Send(new LogoutMessage());
         }
 
         public sealed override void Load()

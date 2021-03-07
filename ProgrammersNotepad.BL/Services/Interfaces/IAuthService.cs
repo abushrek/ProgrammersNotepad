@@ -1,10 +1,11 @@
 ﻿using ProgrammersNotepad.DAL.Entities;
+using ProgrammersNotepad.Models.Detail;
 
 namespace ProgrammersNotepad.BL.Services.Interfaces
 {
     public interface IAuthService:IService
     {
-        UserEntity AuthenticateUser(string email, string password);
-        UserEntity CreateUser(UserEntity user);
+        UserDetailModel AuthenticateUser(string username, string password);
+        UserDetailModel CreateUser(UserDetailModel user);
     }
 }

@@ -47,6 +47,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0" Grid.Column="0" Content="{DynamicResource Remove}" Command="{Binding RemoveUserCommand}"></Button>
+            <Button Grid.Row="0" Grid.Column="0" Content="{DynamicResource Remove}" Command="{Binding RemoveUserCommand}"></Button>
         </Grid>
     </Grid>
 </UserControl>

@@ -3,7 +3,7 @@ using ProgrammersNotepad.Models.Interfaces;
 
 namespace ProgrammersNotepad.Models.Detail
 {
-    public class UserDetailModel:BaseModel, IDetailModel
+    public class UserDetailModel:BaseModel, IUserDetailModel
     {
         public string Username { get; set; }
         public string Password { get; set; }

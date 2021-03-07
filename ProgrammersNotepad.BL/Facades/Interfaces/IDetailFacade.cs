@@ -5,7 +5,7 @@ using ProgrammersNotepad.Models.Interfaces;
 
 namespace ProgrammersNotepad.BL.Facades.Interfaces
 {
-    public interface IDetailFacade<TModel>:IFacade<TModel> where TModel:IDetailModel
+    public interface IDetailFacade<TModel>:IFacade<TModel> where TModel:IModel
     {
         TModel Add(TModel model);
         Task<TModel> AddAsync(TModel model, CancellationToken token = default);

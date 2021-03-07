@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Threading;
+using ProgrammersNotepad.BL.Exceptions;
+using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Repositories.Interfaces;
+using ProgrammersNotepad.Models.Detail;
 
 namespace ProgrammersNotepad.BL.Services
 {
     public class AuthService:IAuthService
     {
-        private IUserRepository<UserEntity> _userRepository;
+        private readonly IUserFacade<UserDetailModel> _facade;
+        private readonly IDetailFacade<UserDetailModel> _detailFacade;
 
-        public AuthService(IUserRepository<UserEntity> userRepository)
+        public AuthService(IUserFacade<UserDetailModel> facade, IDetailFacade<UserDetailModel> detailFacade)
         {
-            _userRepository = userRepository;
+            _facade = facade;
+            _detailFacade = detailFacade;
         }
 
-        public UserEntity AuthenticateUser(string username, string password)
+        public UserDetailModel AuthenticateUser(string username, string password)
         {
-            string storedPassword = _userRepository.GetPasswordByUserName(username);
+            string storedPassword = _facade.GetPasswordByUserName(username);
 
             if (storedPassword == null)
             {
@@ -30,7 +35,7 @@ namespace ProgrammersNotepad.BL.Services
                 throw new UnauthorizedAccessException("Failed to authenticate user.");
             }
 
-            UserEntity user = _userRepository.GetByUserName(username);
+            UserDetailModel user = _facade.GetByUserName(username);
 
             if (user == null)
             {
@@ -44,13 +49,13 @@ namespace ProgrammersNotepad.BL.Services
             return pass == storedPass;
         }
 
-        public UserEntity CreateUser(UserEntity user)
+        public UserDetailModel CreateUser(UserDetailModel user)
         {
-            if (_userRepository.Exists(user.Username))
+            if (_facade.Exists(user.Username))
             {
-                throw new Exception("User already exists.");
+                throw new UserExistsException("User already exists.");
             }
-            return _userRepository.Add(user);
+            return _detailFacade.Add(user);
         }
     }
 }

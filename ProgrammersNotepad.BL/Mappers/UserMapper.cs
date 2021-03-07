@@ -44,7 +44,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Username = model.Username,
                 Email = model.Email,
-                ListOfNoteTypes = model.ListOfNoteTypes.Select(s => _noteDetailMapper.MapModelToEntity(s)).ToList(),
+                ListOfNoteTypes = model.ListOfNoteTypes?.Select(s => _noteDetailMapper.MapModelToEntity(s)).ToList(),
                 Password = model.Password
             };
         }

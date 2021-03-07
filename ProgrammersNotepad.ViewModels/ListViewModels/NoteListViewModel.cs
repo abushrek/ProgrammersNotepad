@@ -12,7 +12,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
     {
         private Guid _selectedNoteType;
         private NoteListModel _selectedNote;
-        public new INoteFacade Facade { get; protected set; }
+        private readonly INoteFacade _noteFacade;
 
         public NoteListModel SelectedNote
         {
@@ -22,27 +22,33 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
                 _selectedNote = value;
                 Mediator.Send(new SelectedNoteChangedMessage()
                 {
-                    SelectedNoteId = value.Id
+                    SelectedNoteId = value?.Id ?? Guid.Empty
                 });
                 OnPropertyChanged();
             }
         }
 
-        public NoteListViewModel(INoteFacade facade, IMediator mediator) : base(facade, mediator)
+        public NoteListViewModel(INoteFacade noteFacade, IFacade<NoteListModel> facade, IMediator mediator) : base(facade, mediator)
         {
-            Facade = facade;
+            _noteFacade = noteFacade;
             Mediator.Register<SelectedNoteTypeChangedMessage>(OnSelectedNoteTypeChanged);
         }
 
         private void OnSelectedNoteTypeChanged(SelectedNoteTypeChangedMessage obj)
         {
-            _selectedNoteType = obj.Model.Id;
+            if(obj.Model != null)
+                _selectedNoteType = obj.Model.Id;
+            else
+                _selectedNoteType = Guid.Empty;
             Load();
         }
 
         public override void Load()
         {
-            Models = new ObservableCollection<NoteListModel>(Facade.GetAllNotesByNoteType(_selectedNoteType));
+            if (_selectedNoteType != Guid.Empty)
+                Models = new ObservableCollection<NoteListModel>(_noteFacade.GetAllNotesByNoteType(_selectedNoteType));
+            else
+                Models = new ObservableCollection<NoteListModel>();
             base.Load();
         }
     }

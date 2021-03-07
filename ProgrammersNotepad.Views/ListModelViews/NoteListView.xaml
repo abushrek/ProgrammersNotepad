@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProgrammersNotepad.Views.ListModelViews"
              xmlns:listViewModels="clr-namespace:ProgrammersNotepad.ViewModels.Annotations.ListViewModels;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:converters="clr-namespace:ProgrammersNotepad.ViewModels.Converters;assembly=ProgrammersNotepad.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance listViewModels:NoteListViewModel}"
              DataContext="{Binding Source={StaticResource ViewModelLocator},Path = NoteListViewModel}">
-    <Grid>
+    <UserControl.Resources>
+        <converters:CollectionCountToVisibilityConverter x:Key="CollectionCountToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid Visibility="{Binding Models.Count, Converter={StaticResource CollectionCountToVisibilityConverter}}">
         <ListView ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedNote}">
             <ListView.ItemTemplate>
                 <DataTemplate>
