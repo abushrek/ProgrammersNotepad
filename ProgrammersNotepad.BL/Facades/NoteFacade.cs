@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
@@ -23,6 +25,32 @@ namespace ProgrammersNotepad.BL.Facades
         {
             NoteTypeEntity type = _noteTypeRepository.GetById(typeId);
             return type.ListOfEntities.Select(ListMapper.MapEntityToModel).ToList();
+        }
+
+        public NoteListModel Add(NoteListModel model, Guid typeId)
+        {
+            if (model == null)
+                throw new ArgumentNullException();
+            NoteEntity noteTypeEntity = ListMapper.MapModelToEntity(model);
+            if (Repository.Add(noteTypeEntity) == null)
+                return default;
+            NoteTypeEntity entity = _noteTypeRepository.GetById(typeId);
+            entity.ListOfEntities.Add(noteTypeEntity);
+            _noteTypeRepository.Update(entity);
+            return model;
+        }
+
+        public async Task<NoteListModel> AddAsync(NoteListModel model, Guid typeId, CancellationToken token)
+        {
+            if (model == null)
+                throw new ArgumentNullException();
+            NoteEntity noteTypeEntity = ListMapper.MapModelToEntity(model);
+            if (await Repository.AddAsync(noteTypeEntity, token) == null)
+                return default;
+            NoteTypeEntity entity = await _noteTypeRepository.GetByIdAsync(typeId, token);
+            entity.ListOfEntities.Add(noteTypeEntity);
+            await _noteTypeRepository.UpdateAsync(entity, token);
+            return model;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ProgrammersNotepad.BL.Facades
             Mapper = mapper;
         }
 
-        public TModel Add(TModel model)
+        public virtual TModel Add(TModel model)
         {
             if (model == null)
                 throw new ArgumentNullException();
@@ -28,7 +28,7 @@ namespace ProgrammersNotepad.BL.Facades
             return model;
         }
 
-        public async Task<TModel> AddAsync(TModel model, CancellationToken token = default)
+        public virtual async Task<TModel> AddAsync(TModel model, CancellationToken token = default)
         {
             if (model == null)
                 throw new ArgumentNullException();
@@ -39,24 +39,24 @@ namespace ProgrammersNotepad.BL.Facades
             return model;
         }
 
-        public void Remove(Guid id)
+        public virtual void Remove(Guid id)
         {
             Repository.Remove(id);
         }
 
-        public async Task RemoveAsync(Guid id, CancellationToken token = default)
+        public virtual async Task RemoveAsync(Guid id, CancellationToken token = default)
         {
             await Repository.RemoveAsync(id, token);
         }
 
-        public void Update(TModel model)
+        public virtual void Update(TModel model)
         {
             if (model == null)
                 throw new ArgumentNullException();
             Repository.Update(Mapper.MapModelToEntity(model));
         }
 
-        public async Task UpdateAsync(TModel model, CancellationToken token = default)
+        public virtual async Task UpdateAsync(TModel model, CancellationToken token = default)
         {
             if (model == null)
                 throw new ArgumentNullException();

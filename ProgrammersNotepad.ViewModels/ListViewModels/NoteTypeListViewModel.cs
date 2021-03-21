@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Messages;
 using ProgrammersNotepad.BL.Services;
 using ProgrammersNotepad.BL.Services.Interfaces;
+using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.Models.List;
 using ProgrammersNotepad.ViewModels.BaseClasses;
 
@@ -30,11 +33,26 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
             }
         }
 
+        public ICommand AddCommand { get; }
+
         public NoteTypeListViewModel(INoteTypeFacade facade, IMediator mediator) : base(facade, mediator)
         {
             Facade = facade;
             Mediator.Register<LoginMessage>(Login);
+            AddCommand = new RelayCommand(Add);
             Load();
+        }
+
+        private void Add()
+        {
+            NoteTypeListModel model = new NoteTypeListModel()
+            {
+                Id = Guid.NewGuid(),
+                Name = "New "+Facade.GetAll().Count(s => s.Name.StartsWith("New ")),
+                Description = "",
+            };
+            Facade.Add(model,_currentUserId);
+            Models.Add(model);
         }
 
         private void Login(LoginMessage obj)

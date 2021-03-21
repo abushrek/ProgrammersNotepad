@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\addIcon.png" />
     <None Remove="Resources\RemoveIcon.png" />
   </ItemGroup>
 
@@ -14,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\AddIcon.png" />
     <Resource Include="Resources\RemoveIcon.png" />
   </ItemGroup>
 

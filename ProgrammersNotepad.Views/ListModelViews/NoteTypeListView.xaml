@@ -17,18 +17,22 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <ListBox Grid.Row="0" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedType}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="{Binding Name}"></Label>
-                        <Label Grid.Row="1" Content="{Binding Description}"></Label>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        <Button Grid.Row="1" DockPanel.Dock="Bottom" Command="{Binding AddCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+            <Button.Content>
+                <Image Source="../Resources/AddIcon.png"></Image>
+            </Button.Content>
+        </Button>
     </Grid>
 </UserControl>

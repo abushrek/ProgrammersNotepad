@@ -40,6 +40,10 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
         private void Remove()
         {
             Facade.RemoveAsync(Model.Id);
+            Mediator.Send(new RemoveNoteMessage()
+            {
+                Id= Model.Id
+            });
             _selectedNote = Guid.Empty;
             Model = null;
             Load();

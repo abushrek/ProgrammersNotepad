@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.Models.Detail;
@@ -12,5 +13,7 @@ namespace ProgrammersNotepad.BL.Facades.Interfaces
     {
         IList<NoteTypeListModel> GetAllNoteTypesByUserId(Guid id);
         Task<IList<NoteTypeListModel>> GetAllNoteTypesByUserIdAsync(Guid id);
+        NoteTypeListModel Add(NoteTypeListModel model, Guid userId);
+        Task<NoteTypeListModel> AddAsync(NoteTypeListModel model, Guid userId, CancellationToken token);
     }
 }
