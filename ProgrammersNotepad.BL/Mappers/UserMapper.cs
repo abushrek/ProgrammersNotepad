@@ -10,9 +10,9 @@ namespace ProgrammersNotepad.BL.Mappers
     {
         private IMapper<NoteTypeDetailModel, NoteTypeEntity> _noteDetailMapper;
 
-        public UserMapper()
+        public UserMapper(IMapper<NoteTypeDetailModel, NoteTypeEntity> noteDetailMapper)
         {
-            _noteDetailMapper = new NoteTypeMapper();
+            _noteDetailMapper = noteDetailMapper;
         }
 
         UserDetailModel IMapper<UserDetailModel, UserEntity>.MapEntityToModel(UserEntity entity)

@@ -7,6 +7,6 @@ namespace ProgrammersNotepad.BL.Facades.Interfaces
 {
     public interface INoteFacade:IFacade<NoteListModel>
     {
-        IList<NoteListModel> GetAllNotesByNoteType(Guid id);
+        IList<NoteListModel> GetAllNotesByNoteType(Guid typeId);
     }
 }

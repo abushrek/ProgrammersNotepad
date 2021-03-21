@@ -28,15 +28,15 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("NoteTypeEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("NoteTypeEntityId");
 
                     b.ToTable("NoteSet");
                 });
@@ -85,12 +85,9 @@ namespace ProgrammersNotepad.DAL.Migrations
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", "Type")
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", null)
                         .WithMany("ListOfEntities")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Type");
+                        .HasForeignKey("NoteTypeEntityId");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>

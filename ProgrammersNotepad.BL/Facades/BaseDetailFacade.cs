@@ -53,7 +53,7 @@ namespace ProgrammersNotepad.BL.Facades
         {
             if (model == null)
                 throw new ArgumentNullException();
-            Repository.UpdateAsync(Mapper.MapModelToEntity(model));
+            Repository.Update(Mapper.MapModelToEntity(model));
         }
 
         public async Task UpdateAsync(TModel model, CancellationToken token = default)

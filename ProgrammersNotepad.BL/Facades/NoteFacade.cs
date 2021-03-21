@@ -19,9 +19,9 @@ namespace ProgrammersNotepad.BL.Facades
             _noteTypeRepository = noteTypeRepository;
         }
 
-        public IList<NoteListModel> GetAllNotesByNoteType(Guid id)
+        public IList<NoteListModel> GetAllNotesByNoteType(Guid typeId)
         {
-            NoteTypeEntity type = _noteTypeRepository.GetById(id);
+            NoteTypeEntity type = _noteTypeRepository.GetById(typeId);
             return type.ListOfEntities.Select(ListMapper.MapEntityToModel).ToList();
         }
     }

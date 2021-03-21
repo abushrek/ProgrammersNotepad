@@ -72,8 +72,14 @@ namespace ProgrammersNotepad.DAL.Repositories
         {
             if (entity == null)
                 throw new ArgumentNullException();
-            SetOfEntities.Update(entity);
-            DbContext.SaveChanges();
+            if (SetOfEntities.All(s => s.Id != entity.Id))
+                SetOfEntities.Add(entity);
+            TEntity entry = SetOfEntities.FirstOrDefault(s=> s.Id == entity.Id);
+            if(entry != null)
+            {
+                DbContext.Entry<TEntity>(entry).CurrentValues.SetValues(entity);
+                DbContext.SaveChanges();
+            }
         }
 
         public async Task UpdateAsync(TEntity entity, CancellationToken token = default)

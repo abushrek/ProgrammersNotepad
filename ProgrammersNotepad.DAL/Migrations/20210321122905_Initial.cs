@@ -48,23 +48,23 @@ namespace ProgrammersNotepad.DAL.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    NoteTypeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NoteSet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NoteSet_NoteTypeSet_TypeId",
-                        column: x => x.TypeId,
+                        name: "FK_NoteSet_NoteTypeSet_NoteTypeEntityId",
+                        column: x => x.NoteTypeEntityId,
                         principalTable: "NoteTypeSet",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NoteSet_TypeId",
+                name: "IX_NoteSet_NoteTypeEntityId",
                 table: "NoteSet",
-                column: "TypeId");
+                column: "NoteTypeEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NoteTypeSet_UserId",

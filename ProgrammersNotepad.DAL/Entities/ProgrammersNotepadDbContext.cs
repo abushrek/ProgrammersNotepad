@@ -20,8 +20,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<NoteEntity>().HasOne(i => i.Type).WithMany(s=>s.ListOfEntities).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<NoteTypeEntity>().HasMany(i => i.ListOfEntities).WithOne(s=>s.Type).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<NoteTypeEntity>().HasMany(i => i.ListOfEntities);
             modelBuilder.Entity<UserEntity>().HasMany(i => i.ListOfNoteTypes).WithOne(s=>s.User).OnDelete(DeleteBehavior.Cascade);
 
             //add-migration Initial
@@ -35,6 +34,7 @@ namespace ProgrammersNotepad.DAL.Entities
                 "Server=(localdb)\\mssqllocaldb;Database=ProgrammersNotepadDb;Trusted_Connection=True;", builder =>
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+
                 });
         }
     }

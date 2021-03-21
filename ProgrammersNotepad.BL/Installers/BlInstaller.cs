@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using ProgrammersNotepad.BL.Facades;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers;
@@ -16,12 +17,12 @@ namespace ProgrammersNotepad.BL.Installers
     {
         public override void Install(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IMapper<UserDetailModel, UserEntity>, UserMapper>();
-            serviceCollection.AddTransient<IMapper<UserListModel, UserEntity>, UserMapper>();
-            serviceCollection.AddTransient<IMapper<NoteTypeDetailModel, NoteTypeEntity>, NoteTypeMapper>();
-            serviceCollection.AddTransient<IMapper<NoteTypeListModel, NoteTypeEntity>, NoteTypeMapper>();
-            serviceCollection.AddTransient<IMapper<NoteDetailModel, NoteEntity>, NoteMapper>();
-            serviceCollection.AddTransient<IMapper<NoteListModel, NoteEntity>, NoteMapper>();
+            serviceCollection.AddSingleton<IMapper<UserDetailModel, UserEntity>, UserMapper>();
+            serviceCollection.AddSingleton<IMapper<UserListModel, UserEntity>, UserMapper>();
+            serviceCollection.AddSingleton<IMapper<NoteTypeDetailModel, NoteTypeEntity>, NoteTypeMapper>();
+            serviceCollection.AddSingleton<IMapper<NoteTypeListModel, NoteTypeEntity>, NoteTypeMapper>();
+            serviceCollection.AddSingleton<IMapper<NoteDetailModel, NoteEntity>, NoteMapper>();
+            serviceCollection.AddSingleton<IMapper<NoteListModel, NoteEntity>, NoteMapper>();
 
             serviceCollection.AddTransient<IDetailFacade<UserDetailModel>, UserFacade>();
             serviceCollection.AddTransient<IFacade<UserListModel>, UserFacade>();
