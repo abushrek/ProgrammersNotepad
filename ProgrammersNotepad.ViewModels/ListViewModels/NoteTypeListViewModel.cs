@@ -35,12 +35,24 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ICommand AddCommand { get; }
 
+        public ICommand RemoveCommand { get; }
+
         public NoteTypeListViewModel(INoteTypeFacade facade, IMediator mediator) : base(facade, mediator)
         {
             Facade = facade;
             Mediator.Register<LoginMessage>(Login);
             AddCommand = new RelayCommand(Add);
+            RemoveCommand = new RelayCommand(Remove);
             Load();
+        }
+
+        private void Remove()
+        {
+            if (SelectedType != null)
+            {
+                //TODO Remove selected note from db
+                Models.Remove(SelectedType);
+            }
         }
 
         private void Add()

@@ -13,9 +13,19 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 {
     public class NoteListViewModel: BaseListViewModel<NoteListModel>
     {
-        private Guid _selectedNoteType;
         private NoteListModel _selectedNote;
         private readonly INoteFacade _noteFacade;
+        private NoteTypeListModel _selectedNoteType;
+
+        public NoteTypeListModel SelectedNoteType
+        {
+            get => _selectedNoteType;
+            private set
+            {
+                _selectedNoteType = value;
+                OnPropertyChanged();
+            }
+        }
 
         public NoteListModel SelectedNote
         {
@@ -33,12 +43,24 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ICommand AddCommand { get; }
 
+        public ICommand RemoveCommand { get; }
+
         public NoteListViewModel(INoteFacade noteFacade, IMediator mediator) : base(noteFacade, mediator)
         {
             _noteFacade = noteFacade;
             AddCommand = new RelayCommand(Add);
+            RemoveCommand = new RelayCommand(Remove);
             Mediator.Register<SelectedNoteTypeChangedMessage>(OnSelectedNoteTypeChanged);
             Mediator.Register<RemoveNoteMessage>(OnRemoveNote);
+        }
+
+        private void Remove()
+        {
+            if (SelectedNote != null)
+            {
+                //TODO Remove selected note from db
+                Models.Remove(SelectedNote);
+            }
         }
 
         private void OnRemoveNote(RemoveNoteMessage obj)
@@ -55,22 +77,22 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
                 Title = "New " + Facade.GetAll().Count(s => s.Title.StartsWith("New "))
             };
             Models.Add(model);
-            _noteFacade.Add(model, _selectedNoteType);
+            _noteFacade.Add(model, SelectedNoteType.Id);
         }
 
         private void OnSelectedNoteTypeChanged(SelectedNoteTypeChangedMessage obj)
         {
             if(obj.Model != null)
-                _selectedNoteType = obj.Model.Id;
+                SelectedNoteType = obj.Model;
             else
-                _selectedNoteType = Guid.Empty;
+                SelectedNoteType = null;
             Load();
         }
 
         public override void Load()
         {
-            if (_selectedNoteType != Guid.Empty)
-                Models = new ObservableCollection<NoteListModel>(_noteFacade.GetAllNotesByNoteType(_selectedNoteType));
+            if (SelectedNoteType != null)
+                Models = new ObservableCollection<NoteListModel>(_noteFacade.GetAllNotesByNoteType(SelectedNoteType.Id));
             else
                 Models = new ObservableCollection<NoteListModel>();
             base.Load();
