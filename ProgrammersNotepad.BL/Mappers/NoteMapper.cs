@@ -27,6 +27,7 @@ namespace ProgrammersNotepad.BL.Mappers
             return new NoteEntity()
             {
                 Id = model.Id,
+                Description = "",
                 Title = model.Title
             };
         }

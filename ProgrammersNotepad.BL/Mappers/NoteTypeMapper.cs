@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.Models.Detail;
@@ -33,6 +34,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 Description =  model.Description,
+                ListOfEntities = new List<NoteEntity>()
             };
         }
 
