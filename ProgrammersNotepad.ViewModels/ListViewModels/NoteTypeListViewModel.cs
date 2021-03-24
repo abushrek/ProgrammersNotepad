@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Messages;
@@ -52,9 +53,13 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         {
             if (Models != null)
             {
-                if(_currentUserId != Guid.Empty)
-                    Facade.ClearAllByUserId(_currentUserId);
-                Models.Clear();
+                if (MessageBox.Show("Do you really want to remove types?", "Remove types",
+                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    if (_currentUserId != Guid.Empty)
+                        Facade.ClearAllByUserId(_currentUserId);
+                    Models.Clear();
+                }
             }
         }
 

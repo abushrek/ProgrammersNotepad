@@ -29,8 +29,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Name}"></TextBox>
-                        <Button Grid.Row="0" Grid.Column="1" Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=listModelViews:NoteTypeListView}}" CommandParameter="{Binding .}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding Name}" VerticalAlignment="Center"></Label>
+                        <Button Grid.Row="0" Grid.Column="1" Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=listModelViews:NoteTypeListView}}" CommandParameter="{Binding .}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                             <Button.Content>
                                 <Image Source="../Resources/RemoveIcon.png"></Image>
                             </Button.Content>
