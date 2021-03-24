@@ -8,6 +8,7 @@ namespace ProgrammersNotepad.DAL.Entities
         public DbSet<NoteTypeEntity> NoteTypeSet { get; set; }
         public DbSet<NoteEntity> NoteSet { get; set; }
         public DbSet<UserEntity> UserSet { get; set; }
+        public DbSet<ImageEntity> ImageSet { get; set; }
 
         public ProgrammersNotepadDbContext()
         {
@@ -20,6 +21,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<NoteEntity>().HasMany(i => i.ImagesAsBytes);
             modelBuilder.Entity<NoteTypeEntity>().HasMany(i => i.ListOfEntities);
             modelBuilder.Entity<UserEntity>().HasMany(i => i.ListOfNoteTypes).WithOne(s=>s.User).OnDelete(DeleteBehavior.Cascade);
 

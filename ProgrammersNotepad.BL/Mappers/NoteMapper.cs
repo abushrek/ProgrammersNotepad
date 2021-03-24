@@ -17,7 +17,8 @@ namespace ProgrammersNotepad.BL.Mappers
             return new NoteDetailModel()
             {
                 Id = entity.Id,
-                Description = entity.Description,
+                RawText = entity.RawText,
+                FormattedText = entity.FormattedText,
                 Title = entity.Title,
             };
         }
@@ -27,7 +28,8 @@ namespace ProgrammersNotepad.BL.Mappers
             return new NoteEntity()
             {
                 Id = model.Id,
-                Description = "",
+                RawText = "",
+                FormattedText = "",
                 Title = model.Title
             };
         }
@@ -37,7 +39,8 @@ namespace ProgrammersNotepad.BL.Mappers
             return new NoteEntity()
             {
                 Id = model.Id,
-                Description = model.Description,
+                RawText = model.RawText,
+                FormattedText = model.FormattedText,
                 Title = model.Title,
             };
         }

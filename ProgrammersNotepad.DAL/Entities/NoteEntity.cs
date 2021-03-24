@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ProgrammersNotepad.DAL.Entities.Interfaces;
 
 namespace ProgrammersNotepad.DAL.Entities
@@ -6,13 +7,16 @@ namespace ProgrammersNotepad.DAL.Entities
     public class NoteEntity : BaseEntity, IEquatable<NoteEntity>
     {
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string RawText { get; set; }
+        public string FormattedText { get; set; }
+        public virtual ICollection<ImageEntity> ImagesAsBytes{ get; set; }
+
 
         public bool Equals(NoteEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Title == other.Title && Description == other.Description;
+            return base.Equals(other) && Title == other.Title && RawText == other.RawText && FormattedText == other.FormattedText && Equals(ImagesAsBytes, other.ImagesAsBytes);
         }
 
         public override bool Equals(object obj)
@@ -25,7 +29,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Title, Description);
+            return HashCode.Combine(base.GetHashCode(), Title, RawText, FormattedText, ImagesAsBytes);
         }
     }
 }

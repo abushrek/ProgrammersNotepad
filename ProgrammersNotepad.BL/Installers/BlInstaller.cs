@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ProgrammersNotepad.BL.Facades;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers;
@@ -7,7 +6,6 @@ using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.BL.Services;
 using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
-using ProgrammersNotepad.DAL.Installers.Interfaces;
 using ProgrammersNotepad.Models.Detail;
 using ProgrammersNotepad.Models.List;
 
@@ -23,6 +21,7 @@ namespace ProgrammersNotepad.BL.Installers
             serviceCollection.AddSingleton<IMapper<NoteTypeListModel, NoteTypeEntity>, NoteTypeMapper>();
             serviceCollection.AddSingleton<IMapper<NoteDetailModel, NoteEntity>, NoteMapper>();
             serviceCollection.AddSingleton<IMapper<NoteListModel, NoteEntity>, NoteMapper>();
+            serviceCollection.AddSingleton<IMapper<ImageDetailModel, ImageEntity>, ImageMapper>();
 
             serviceCollection.AddTransient<IDetailFacade<UserDetailModel>, UserFacade>();
             serviceCollection.AddTransient<IFacade<UserListModel>, UserFacade>();
@@ -36,6 +35,10 @@ namespace ProgrammersNotepad.BL.Installers
             serviceCollection.AddTransient<IDetailFacade<NoteDetailModel>, NoteFacade>();
             serviceCollection.AddTransient<IFacade<NoteListModel>, NoteFacade>();
             serviceCollection.AddTransient<INoteFacade, NoteFacade>();
+
+            serviceCollection.AddTransient<IFacade<ImageDetailModel>, ImageFacade>();
+            serviceCollection.AddTransient<IDetailFacade<ImageDetailModel>, ImageFacade>();
+
 
             serviceCollection.AddTransient<IAuthService, AuthService>();
             serviceCollection.AddSingleton<IMediator, Mediator>();

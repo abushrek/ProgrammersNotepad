@@ -47,7 +47,8 @@ namespace ProgrammersNotepad.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RawText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FormattedText = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NoteTypeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -60,6 +61,31 @@ namespace ProgrammersNotepad.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "ImageSet",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    NoteEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageSet", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ImageSet_NoteSet_NoteEntityId",
+                        column: x => x.NoteEntityId,
+                        principalTable: "NoteSet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImageSet_NoteEntityId",
+                table: "ImageSet",
+                column: "NoteEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NoteSet_NoteTypeEntityId",
@@ -74,6 +100,9 @@ namespace ProgrammersNotepad.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ImageSet");
+
             migrationBuilder.DropTable(
                 name: "NoteSet");
 

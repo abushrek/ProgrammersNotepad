@@ -31,7 +31,7 @@ namespace ProgrammersNotepad.DAL.Seed
             {
                 Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb804c8e1a"),
                 Title = "Title",
-                Description = "Desc",
+                RawText = "Desc",
             };
             noteType.ListOfEntities.Add(note);
             dbContext.Add(note);

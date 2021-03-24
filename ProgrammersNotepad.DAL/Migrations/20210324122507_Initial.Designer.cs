@@ -10,7 +10,7 @@ using ProgrammersNotepad.DAL.Entities;
 namespace ProgrammersNotepad.DAL.Migrations
 {
     [DbContext(typeof(ProgrammersNotepadDbContext))]
-    [Migration("20210321122905_Initial")]
+    [Migration("20210324122507_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,17 +21,42 @@ namespace ProgrammersNotepad.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.ImageEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("NoteEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoteEntityId");
+
+                    b.ToTable("ImageSet");
+                });
+
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("FormattedText")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("NoteTypeEntityId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RawText")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -85,6 +110,13 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.ToTable("UserSet");
                 });
 
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.ImageEntity", b =>
+                {
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteEntity", null)
+                        .WithMany("ImagesAsBytes")
+                        .HasForeignKey("NoteEntityId");
+                });
+
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
                     b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", null)
@@ -100,6 +132,11 @@ namespace ProgrammersNotepad.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
+                {
+                    b.Navigation("ImagesAsBytes");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>

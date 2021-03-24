@@ -15,6 +15,7 @@ namespace ProgrammersNotepad.ViewModels
         public NoteListViewModel NoteListViewModel => InitializerOfObjects.GetService<NoteListViewModel>();
         public NoteDetailViewModel NoteDetailViewModel => InitializerOfObjects.GetService<NoteDetailViewModel>();
         public RegisterViewModel RegisterViewModel => InitializerOfObjects.GetService<RegisterViewModel>();
+        public ImageDetailViewModel ImageDetailViewModel => InitializerOfObjects.GetService<ImageDetailViewModel>();
 
     }
 }

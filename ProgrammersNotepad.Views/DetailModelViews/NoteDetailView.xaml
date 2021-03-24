@@ -20,13 +20,25 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Model.Title}" Margin="5"></TextBox>
+            <TabControl>
+                <TabItem Header="Raw">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Model.RawText}" Margin="5"></TextBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Preview">
+                    <TextBox Text="{Binding Model.FormattedText}" Margin="5"></TextBox>
+                </TabItem>
+            </TabControl>
             <Button Grid.Row="0" Grid.Column="1" Command="{Binding RemoveCommand}" Width="24" Height="24" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
                 <Button.Content>
                     <Image Source="../Resources/RemoveIcon.png"></Image>
                 </Button.Content>
             </Button>
-            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Model.Description}" Margin="5"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Model.RawText}" Margin="5"></TextBox>
             <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Save" Command="{Binding SaveCommand}" Margin="5"></Button>
         </Grid>
     </Grid>

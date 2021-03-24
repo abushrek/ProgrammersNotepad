@@ -9,6 +9,5 @@ namespace ProgrammersNotepad.DAL.Repositories
         public NoteRepository(ProgrammersNotepadDbContext dbContext) : base(dbContext.NoteSet, dbContext)
         {
         }
-
     }
 }

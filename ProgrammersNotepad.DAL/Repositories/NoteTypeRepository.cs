@@ -10,6 +10,5 @@ namespace ProgrammersNotepad.DAL.Repositories
         public NoteTypeRepository(ProgrammersNotepadDbContext dbContext) : base(dbContext.NoteTypeSet, dbContext)
         {
         }
-
     }
 }
