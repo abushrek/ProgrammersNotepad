@@ -50,8 +50,8 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         {
             if (SelectedType != null)
             {
-                //TODO Remove selected note from db
-                Models.Remove(SelectedType);
+                if(Facade.Remove(SelectedType, _currentUserId))
+                    Models.Remove(SelectedType);
             }
         }
 

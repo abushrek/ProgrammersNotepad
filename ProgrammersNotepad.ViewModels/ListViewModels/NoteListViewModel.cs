@@ -58,8 +58,8 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         {
             if (SelectedNote != null)
             {
-                //TODO Remove selected note from db
-                Models.Remove(SelectedNote);
+                if(_noteFacade.Remove(SelectedNote,SelectedNoteType.Id))
+                    Models.Remove(SelectedNote);
             }
         }
 
@@ -74,7 +74,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
             NoteListModel model = new NoteListModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "New " + Facade.GetAll().Count(s => s.Title.StartsWith("New "))
+                Title = "New " + _noteFacade.GetAllNotesByNoteType(SelectedNoteType.Id).Count(s => s.Title.StartsWith("New "))
             };
             Models.Add(model);
             _noteFacade.Add(model, SelectedNoteType.Id);

@@ -12,10 +12,14 @@ using ProgrammersNotepad.Models.List;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class NoteTypeFacade:BaseListDetailFacade<NoteTypeListModel,NoteTypeDetailModel,NoteTypeEntity>,INoteTypeFacade
+    public class NoteTypeFacade : BaseListDetailFacade<NoteTypeListModel, NoteTypeDetailModel, NoteTypeEntity>,
+        INoteTypeFacade
     {
         private IRepository<UserEntity> _userRepository;
-        public NoteTypeFacade(IRepository<NoteTypeEntity> repository,IUserRepository<UserEntity> userRepository, IMapper<NoteTypeDetailModel, NoteTypeEntity> detailMapper, IMapper<NoteTypeListModel, NoteTypeEntity> listMapper) : base(repository, detailMapper, listMapper)
+
+        public NoteTypeFacade(IRepository<NoteTypeEntity> repository, IUserRepository<UserEntity> userRepository,
+            IMapper<NoteTypeDetailModel, NoteTypeEntity> detailMapper,
+            IMapper<NoteTypeListModel, NoteTypeEntity> listMapper) : base(repository, detailMapper, listMapper)
         {
             _userRepository = userRepository;
         }
@@ -23,13 +27,14 @@ namespace ProgrammersNotepad.BL.Facades
         public IList<NoteTypeListModel> GetAllNoteTypesByUserId(Guid id)
         {
             UserEntity user = _userRepository.GetById(id);
-            IEnumerable < NoteTypeEntity > notes = user?.ListOfNoteTypes;
-            return notes?.Select(s=> ListMapper.MapEntityToModel(s)).ToList();
+            IEnumerable<NoteTypeEntity> notes = user?.ListOfNoteTypes;
+            return notes?.Select(s => ListMapper.MapEntityToModel(s)).ToList();
         }
 
         public async Task<IList<NoteTypeListModel>> GetAllNoteTypesByUserIdAsync(Guid id)
         {
-            return (await _userRepository.GetByIdAsync(id))?.ListOfNoteTypes?.Select(ListMapper.MapEntityToModel).ToList();
+            return (await _userRepository.GetByIdAsync(id))?.ListOfNoteTypes?.Select(ListMapper.MapEntityToModel)
+                .ToList();
         }
 
         public NoteTypeListModel Add(NoteTypeListModel model, Guid userId)
@@ -43,6 +48,19 @@ namespace ProgrammersNotepad.BL.Facades
             entity.ListOfNoteTypes.Add(noteTypeEntity);
             _userRepository.Update(entity);
             return model;
+        }
+
+        public bool Remove(NoteTypeListModel type, Guid userId)
+        {
+            UserEntity entity = _userRepository.GetById(userId);
+            NoteTypeEntity noteEntity = entity.ListOfNoteTypes.FirstOrDefault(s => s.Id == type.Id);
+            if (noteEntity == null) 
+                return false;
+            if (!Repository.Remove(type.Id))
+                return false;
+            entity.ListOfNoteTypes.Remove(noteEntity);
+            _userRepository.Update(entity);
+            return true;
         }
 
         public async Task<NoteTypeListModel> AddAsync(NoteTypeListModel model, Guid userId, CancellationToken token = default)

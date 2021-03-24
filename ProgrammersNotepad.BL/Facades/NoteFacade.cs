@@ -40,6 +40,21 @@ namespace ProgrammersNotepad.BL.Facades
             return model;
         }
 
+        public bool Remove(NoteListModel note, Guid typeId)
+        {
+            if(note == null)
+                throw new ArgumentNullException();
+            NoteTypeEntity entity = _noteTypeRepository.GetById(typeId);
+            NoteEntity noteEntity = entity.ListOfEntities.FirstOrDefault(s => s.Id == note.Id);
+            if (noteEntity == null) 
+                return false;
+            if (!Repository.Remove(note.Id)) 
+                return false;
+            entity.ListOfEntities.Remove(noteEntity);
+            _noteTypeRepository.Update(entity);
+            return true;
+        }
+
         public async Task<NoteListModel> AddAsync(NoteListModel model, Guid typeId, CancellationToken token)
         {
             if (model == null)

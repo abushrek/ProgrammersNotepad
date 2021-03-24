@@ -12,8 +12,8 @@ namespace ProgrammersNotepad.DAL.Repositories.Interfaces
         Task<List<TEntity>> GetAllAsync(CancellationToken token = default);
         TEntity GetById(Guid id);
         Task<TEntity> GetByIdAsync(Guid id, CancellationToken token = default);
-        void Remove(Guid id);
-        Task RemoveAsync(Guid id, CancellationToken token = default);
+        bool Remove(Guid id);
+        Task<bool> RemoveAsync(Guid id, CancellationToken token = default);
         TEntity Add(TEntity entity);
         Task<TEntity> AddAsync(TEntity entity, CancellationToken token = default);
         void Update(TEntity entity);

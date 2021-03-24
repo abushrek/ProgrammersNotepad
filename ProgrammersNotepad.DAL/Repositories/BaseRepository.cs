@@ -40,27 +40,34 @@ namespace ProgrammersNotepad.DAL.Repositories
             return await SetOfEntities.FirstOrDefaultAsync(s => s.Id == id, cancellationToken: token);
         }
 
-        public void Remove(Guid id)
+        public bool Remove(Guid id)
         {
             TEntity entity = GetById(id);
             if (entity == null)
-                return;
-            SetOfEntities.Remove(entity);
-            DbContext.SaveChanges();
+                return false;
+            if (SetOfEntities.Remove(entity) != null)
+            {
+                DbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public async Task RemoveAsync(Guid id, CancellationToken token = default)
+        public async Task<bool> RemoveAsync(Guid id, CancellationToken token = default)
         {
-            await Task.Run(() => Remove(id), token);
+            return await Task.Run(() => Remove(id), token);
         }
 
         public TEntity Add(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();
-            SetOfEntities.Add(entity);
-            DbContext.SaveChanges();
-            return entity;
+            if (SetOfEntities.Add(entity) != null)
+            {
+                DbContext.SaveChanges();
+                return entity;
+            }
+            return default;
         }
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken token = default)
