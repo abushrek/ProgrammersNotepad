@@ -14,7 +14,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
     public class NoteListViewModel: BaseListViewModel<NoteListModel>
     {
         private NoteListModel _selectedNote;
-        private readonly INoteFacade _noteFacade;
+        protected new INoteFacade Facade;
         private NoteTypeListModel _selectedNoteType;
 
         public NoteTypeListModel SelectedNoteType
@@ -47,19 +47,19 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public NoteListViewModel(INoteFacade noteFacade, IMediator mediator) : base(noteFacade, mediator)
         {
-            _noteFacade = noteFacade;
+            Facade = noteFacade;
             AddCommand = new RelayCommand(Add);
-            RemoveCommand = new RelayCommand(Remove);
+            RemoveCommand = new RelayCommand<NoteListModel>(Remove);
             Mediator.Register<SelectedNoteTypeChangedMessage>(OnSelectedNoteTypeChanged);
             Mediator.Register<RemoveNoteMessage>(OnRemoveNote);
         }
 
-        private void Remove()
+        private void Remove(NoteListModel model)
         {
-            if (SelectedNote != null)
+            if (model != null)
             {
-                if(_noteFacade.Remove(SelectedNote,SelectedNoteType.Id))
-                    Models.Remove(SelectedNote);
+                if(Facade.Remove(model, SelectedNoteType.Id))
+                    Models.Remove(model);
             }
         }
 
@@ -74,10 +74,10 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
             NoteListModel model = new NoteListModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "New " + _noteFacade.GetAllNotesByNoteType(SelectedNoteType.Id).Count(s => s.Title.StartsWith("New "))
+                Title = "New"
             };
             Models.Add(model);
-            _noteFacade.Add(model, SelectedNoteType.Id);
+            Facade.Add(model, SelectedNoteType.Id);
         }
 
         private void OnSelectedNoteTypeChanged(SelectedNoteTypeChangedMessage obj)
@@ -92,7 +92,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         public override void Load()
         {
             if (SelectedNoteType != null)
-                Models = new ObservableCollection<NoteListModel>(_noteFacade.GetAllNotesByNoteType(SelectedNoteType.Id));
+                Models = new ObservableCollection<NoteListModel>(Facade.GetAllNotesByNoteType(SelectedNoteType.Id));
             else
                 Models = new ObservableCollection<NoteListModel>();
             base.Load();

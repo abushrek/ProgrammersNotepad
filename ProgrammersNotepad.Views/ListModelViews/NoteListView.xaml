@@ -16,29 +16,34 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding SelectedNoteType.Name}" Margin="5" ></TextBox>
-        <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedNote}" Visibility="{Binding Models.Count, Converter={StaticResource CollectionCountToVisibilityConverter}}" Margin="5">
+        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding SelectedNoteType.Name}" Margin="5" ></TextBox>
+        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedNote}" HorizontalContentAlignment="Stretch" Visibility="{Binding Models.Count, Converter={StaticResource CollectionCountToVisibilityConverter}}" Margin="5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Title}"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding Title}" VerticalAlignment="Center"></Label>
+                        <Button Grid.Column="1" Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=local:NoteListView}}" CommandParameter="{Binding .}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+                            <Button.Content>
+                                <Image Source="../Resources/RemoveIcon.png"></Image>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Grid.Row="2" Grid.Column="0" DockPanel.Dock="Bottom" Command="{Binding AddCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Grid.Row="2" Grid.Column="0" DockPanel.Dock="Bottom" Command="{Binding AddCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
             <Button.Content>
                 <Image Source="../Resources/AddIcon.png"></Image>
-            </Button.Content>
-        </Button>
-        <Button Grid.Row="2" Grid.Column="1" Command="{Binding RemoveCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
-            <Button.Content>
-                <Image Source="../Resources/RemoveIcon.png"></Image>
             </Button.Content>
         </Button>
     </Grid>

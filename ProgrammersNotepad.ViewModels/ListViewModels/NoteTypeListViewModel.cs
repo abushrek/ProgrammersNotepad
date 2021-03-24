@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
@@ -37,21 +36,34 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ICommand RemoveCommand { get; }
 
+        public ICommand RemoveAllCommand { get; }
+
         public NoteTypeListViewModel(INoteTypeFacade facade, IMediator mediator) : base(facade, mediator)
         {
             Facade = facade;
             Mediator.Register<LoginMessage>(Login);
             AddCommand = new RelayCommand(Add);
-            RemoveCommand = new RelayCommand(Remove);
+            RemoveCommand = new RelayCommand<NoteTypeListModel>(Remove);
+            RemoveAllCommand = new RelayCommand(RemoveAll);
             Load();
         }
 
-        private void Remove()
+        private void RemoveAll()
         {
-            if (SelectedType != null)
+            if (Models != null)
             {
-                if(Facade.Remove(SelectedType, _currentUserId))
-                    Models.Remove(SelectedType);
+                if(_currentUserId != Guid.Empty)
+                    Facade.ClearAllByUserId(_currentUserId);
+                Models.Clear();
+            }
+        }
+
+        private void Remove(NoteTypeListModel model)
+        {
+            if (model != null)
+            {
+                if(Facade.Remove(model, _currentUserId))
+                    Models.Remove(model);
             }
         }
 
@@ -60,7 +72,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
             NoteTypeListModel model = new NoteTypeListModel()
             {
                 Id = Guid.NewGuid(),
-                Name = "New "+Facade.GetAll().Count(s => s.Name.StartsWith("New ")),
+                Name = "New",
                 Description = "",
             };
             Facade.Add(model,_currentUserId);

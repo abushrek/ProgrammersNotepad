@@ -63,6 +63,15 @@ namespace ProgrammersNotepad.BL.Facades
             return true;
         }
 
+        public void ClearAllByUserId(Guid userId)
+        {
+            UserEntity entity = _userRepository.GetById(userId);
+            foreach (NoteTypeEntity typeEntity in entity.ListOfNoteTypes)
+            {
+                Remove(ListMapper.MapEntityToModel(typeEntity), userId);
+            }
+        }
+
         public async Task<NoteTypeListModel> AddAsync(NoteTypeListModel model, Guid userId, CancellationToken token = default)
         {
             if (model == null)

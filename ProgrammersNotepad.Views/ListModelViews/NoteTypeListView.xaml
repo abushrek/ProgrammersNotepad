@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:listViewModels="clr-namespace:ProgrammersNotepad.ViewModels.Annotations.ListViewModels;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:listModelViews="clr-namespace:ProgrammersNotepad.Views.ListModelViews"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance listViewModels:NoteTypeListViewModel}"
@@ -17,16 +18,24 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedType}" Margin="5">
+        <ListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Models}" HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedType}" Margin="5">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
-                            <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
-                        </Grid>
+                            <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Name}"></TextBox>
+                        <Button Grid.Row="0" Grid.Column="1" Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=listModelViews:NoteTypeListView}}" CommandParameter="{Binding .}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+                            <Button.Content>
+                                <Image Source="../Resources/RemoveIcon.png"></Image>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -35,7 +44,7 @@
                 <Image Source="../Resources/AddIcon.png"></Image>
             </Button.Content>
         </Button>
-        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveAllCommand}" Width="32" Height="32" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
             <Button.Content>
                 <Image Source="../Resources/RemoveIcon.png"></Image>
             </Button.Content>

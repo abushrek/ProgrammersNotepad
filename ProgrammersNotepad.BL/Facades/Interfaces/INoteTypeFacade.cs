@@ -15,6 +15,7 @@ namespace ProgrammersNotepad.BL.Facades.Interfaces
         Task<IList<NoteTypeListModel>> GetAllNoteTypesByUserIdAsync(Guid id);
         NoteTypeListModel Add(NoteTypeListModel model, Guid userId);
         bool Remove(NoteTypeListModel type, Guid userId);
+        void ClearAllByUserId(Guid userId);
         Task<NoteTypeListModel> AddAsync(NoteTypeListModel model, Guid userId, CancellationToken token);
     }
 }
