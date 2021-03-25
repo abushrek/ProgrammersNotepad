@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Messages;
 using ProgrammersNotepad.BL.Services.Interfaces;
@@ -12,6 +16,7 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
 {
     public class NoteDetailViewModel:BaseDetailViewModel<NoteDetailModel>
     {
+        private readonly IDetailFacade<ImageDetailModel> _imageFadace;
         private Guid _selectedNote;
         private Visibility _noteVisibility;
 
@@ -29,12 +34,36 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
 
         public ICommand RemoveCommand { get; }
 
-        public NoteDetailViewModel(IDetailFacade<NoteDetailModel> facade, IMediator mediator) : base(facade, mediator)
+        public ICommand AttachmentCommand { get; }
+
+        public NoteDetailViewModel(IDetailFacade<NoteDetailModel> facade, IDetailFacade<ImageDetailModel> imageFadace, IMediator mediator) : base(facade, mediator)
         {
+            _imageFadace = imageFadace;
             Mediator.Register<SelectedNoteChangedMessage>(SelectedNoteChanged);
             NoteVisibility = Visibility.Hidden;
             SaveCommand = new RelayCommand(Save);
             RemoveCommand = new RelayCommand(Remove);
+            AttachmentCommand = new RelayCommand(Attach);
+        }
+
+        private void Attach()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            
+            if (dlg.ShowDialog() != null && dlg.ShowDialog() == true)
+            {
+                string fileName;
+                fileName = dlg.FileName;
+                ImageDetailModel model = new ImageDetailModel()
+                {
+                    Id = Guid.NewGuid(),
+                    Content = File.ReadAllBytes(fileName),
+                    Name = "name",
+                    Note = Model
+                };
+                _imageFadace.Add(model);
+                Model.ImagesAsBytes.Add(model);
+            }
         }
 
         private void Remove()

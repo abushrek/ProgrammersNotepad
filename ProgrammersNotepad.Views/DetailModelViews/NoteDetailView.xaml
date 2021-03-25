@@ -5,41 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProgrammersNotepad.Views.DetailModelViews"
              xmlns:detailViewModels="clr-namespace:ProgrammersNotepad.ViewModels.DetailViewModels;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:converters="clr-namespace:ProgrammersNotepad.ViewModels.Converters;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:listModelViews="clr-namespace:ProgrammersNotepad.Views.ListModelViews"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance detailViewModels:NoteDetailViewModel}"
              DataContext="{Binding Source={StaticResource ViewModelLocator},Path = NoteDetailViewModel}">
+    <UserControl.Resources>
+        <converters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter" />
+    </UserControl.Resources>
     <Grid Visibility="{Binding NoteVisibility}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TabControl>
+            <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Model.Title}" Margin="0,5,0,5"></TextBox>
+            <Button Grid.Row="0" Grid.Column="2" Command="{Binding RemoveCommand}" Width="24" Height="24" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+                <Button.Content>
+                    <Image Source="../Resources/RemoveIcon.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="1" Command="{Binding AttachmentCommand}" Width="24" Height="24" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
+                <Button.Content>
+                    <Image Source="../Resources/AttachmentIcon.png"></Image>
+                </Button.Content>
+            </Button>
+            <TabControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
                 <TabItem Header="Raw">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Model.RawText}" Margin="5"></TextBox>
+                        <ScrollViewer Grid.Row="0" Grid.Column="0">
+                            <TextBox Text="{Binding Model.RawText}" TextWrapping="Wrap" AcceptsReturn="True" Margin="5"></TextBox>
+                        </ScrollViewer>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Preview">
-                    <TextBox Text="{Binding Model.FormattedText}" Margin="5"></TextBox>
+                    <ScrollViewer>
+                        <TextBox Text="{Binding Model.FormattedText}" Margin="5" IsReadOnly="True"></TextBox>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
-            <Button Grid.Row="0" Grid.Column="1" Command="{Binding RemoveCommand}" Width="24" Height="24" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="5">
-                <Button.Content>
-                    <Image Source="../Resources/RemoveIcon.png"></Image>
-                </Button.Content>
-            </Button>
-            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Model.RawText}" Margin="5"></TextBox>
-            <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Save" Command="{Binding SaveCommand}" Margin="5"></Button>
+            <listModelViews:ImageListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></listModelViews:ImageListView>
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="Save" Command="{Binding SaveCommand}" Margin="0,5,0,5"></Button>
         </Grid>
     </Grid>
 </UserControl>

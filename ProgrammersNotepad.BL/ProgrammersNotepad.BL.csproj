@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProgrammersNotepad.DAL\ProgrammersNotepad.DAL.csproj" />
-    <ProjectReference Include="..\ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj" />
+    <Compile Remove="Converters\**" />
+    <EmbeddedResource Remove="Converters\**" />
+    <None Remove="Converters\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Converters\" />
+    <ProjectReference Include="..\ProgrammersNotepad.DAL\ProgrammersNotepad.DAL.csproj" />
+    <ProjectReference Include="..\ProgrammersNotepad.Models\ProgrammersNotepad.Models.csproj" />
   </ItemGroup>
 </Project>

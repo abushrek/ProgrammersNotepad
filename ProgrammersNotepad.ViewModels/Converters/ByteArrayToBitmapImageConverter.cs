@@ -10,11 +10,13 @@ namespace ProgrammersNotepad.ViewModels.Converters
     {
         public static BitmapImage ConvertByteArrayToBitMapImage(byte[] imageByteArray)
         {
-            BitmapImage img = new BitmapImage
-            {
-                StreamSource = new MemoryStream(imageByteArray)
-            };
-            return img;
+            BitmapImage image = new BitmapImage();
+            MemoryStream stream = new MemoryStream(imageByteArray);
+            stream.Seek(0, SeekOrigin.Begin);
+            image.BeginInit();
+            image.StreamSource = stream;
+            image.EndInit();
+            return image;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

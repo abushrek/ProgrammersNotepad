@@ -10,6 +10,7 @@ namespace ProgrammersNotepad.DAL.Installers
         public override void Install(IServiceCollection serviceCollection)
         {
             base.Install(serviceCollection);
+            serviceCollection.AddTransient<IImageRepository<ImageEntity>, ImageRepository>();
             serviceCollection.AddTransient<IRepository<NoteTypeEntity>, NoteTypeRepository>();
             serviceCollection.AddTransient<IRepository<NoteEntity>, NoteRepository>();
             serviceCollection.AddTransient<IUserRepository<UserEntity>, UserRepository>();

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.Models.Detail;
@@ -8,8 +11,10 @@ namespace ProgrammersNotepad.BL.Mappers
 {
     public class NoteMapper:IMapper<NoteDetailModel,NoteEntity>, IMapper<NoteListModel,NoteEntity>
     {
-        public NoteMapper()
+        private readonly IMapper<ImageDetailModel, ImageEntity> _imageMapper;
+        public NoteMapper(IMapper<ImageDetailModel, ImageEntity> imageMapper)
         {
+            _imageMapper = imageMapper;
         }
 
         NoteDetailModel IMapper<NoteDetailModel, NoteEntity>.MapEntityToModel(NoteEntity entity)
@@ -20,6 +25,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 RawText = entity.RawText,
                 FormattedText = entity.FormattedText,
                 Title = entity.Title,
+                ImagesAsBytes = new ObservableCollection<ImageDetailModel>(entity.ImagesAsBytes.Select(_imageMapper.MapEntityToModel))
             };
         }
 
@@ -30,7 +36,8 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 RawText = "",
                 FormattedText = "",
-                Title = model.Title
+                Title = model.Title,
+                ImagesAsBytes = new List<ImageEntity>()
             };
         }
 
@@ -42,6 +49,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 RawText = model.RawText,
                 FormattedText = model.FormattedText,
                 Title = model.Title,
+                ImagesAsBytes = model.ImagesAsBytes.Select(_imageMapper.MapModelToEntity).ToList()
             };
         }
 

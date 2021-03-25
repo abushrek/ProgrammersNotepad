@@ -8,6 +8,7 @@ namespace ProgrammersNotepad.DAL.Entities
     {
         public string Name { get; set; }
         public byte[] Content { get; set; }
+        public virtual NoteEntity Note { get; set; }
 
         public bool Equals(ImageEntity other)
         {

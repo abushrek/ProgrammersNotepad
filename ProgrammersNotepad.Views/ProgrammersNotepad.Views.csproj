@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <None Remove="Resources\addIcon.png" />
+    <None Remove="Resources\AttachmentIcon.png" />
     <None Remove="Resources\RemoveIcon.png" />
   </ItemGroup>
 
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\AddIcon.png" />
+    <Resource Include="Resources\AttachmentIcon.png" />
     <Resource Include="Resources\RemoveIcon.png" />
   </ItemGroup>
 

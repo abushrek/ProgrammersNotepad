@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using ProgrammersNotepad.BL.Facades;
 using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers;
@@ -21,7 +22,8 @@ namespace ProgrammersNotepad.BL.Installers
             serviceCollection.AddSingleton<IMapper<NoteTypeListModel, NoteTypeEntity>, NoteTypeMapper>();
             serviceCollection.AddSingleton<IMapper<NoteDetailModel, NoteEntity>, NoteMapper>();
             serviceCollection.AddSingleton<IMapper<NoteListModel, NoteEntity>, NoteMapper>();
-            serviceCollection.AddSingleton<IMapper<ImageDetailModel, ImageEntity>, ImageMapper>();
+            //TODO!!! Not working lazy loading should be fixed cause cyclic dependency is here
+            serviceCollection.AddSingleton(typeof(Lazy<IMapper<ImageDetailModel, ImageEntity>>), typeof(Lazy<IMapper<ImageDetailModel, ImageEntity>>));
 
             serviceCollection.AddTransient<IDetailFacade<UserDetailModel>, UserFacade>();
             serviceCollection.AddTransient<IFacade<UserListModel>, UserFacade>();
@@ -36,8 +38,8 @@ namespace ProgrammersNotepad.BL.Installers
             serviceCollection.AddTransient<IFacade<NoteListModel>, NoteFacade>();
             serviceCollection.AddTransient<INoteFacade, NoteFacade>();
 
-            serviceCollection.AddTransient<IFacade<ImageDetailModel>, ImageFacade>();
             serviceCollection.AddTransient<IDetailFacade<ImageDetailModel>, ImageFacade>();
+            serviceCollection.AddTransient<IFacade<ImageDetailModel>, ImageFacade>();
 
 
             serviceCollection.AddTransient<IAuthService, AuthService>();
