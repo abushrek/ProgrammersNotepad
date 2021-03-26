@@ -38,7 +38,7 @@ namespace ProgrammersNotepad.DAL.Migrations
                         column: x => x.UserId,
                         principalTable: "UserSet",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,14 +49,14 @@ namespace ProgrammersNotepad.DAL.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RawText = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FormattedText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NoteTypeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    NoteTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NoteSet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NoteSet_NoteTypeSet_NoteTypeEntityId",
-                        column: x => x.NoteTypeEntityId,
+                        name: "FK_NoteSet_NoteTypeSet_NoteTypeId",
+                        column: x => x.NoteTypeId,
                         principalTable: "NoteTypeSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -69,28 +69,28 @@ namespace ProgrammersNotepad.DAL.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    NoteEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    NoteId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ImageSet", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageSet_NoteSet_NoteEntityId",
-                        column: x => x.NoteEntityId,
+                        name: "FK_ImageSet_NoteSet_NoteId",
+                        column: x => x.NoteId,
                         principalTable: "NoteSet",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageSet_NoteEntityId",
+                name: "IX_ImageSet_NoteId",
                 table: "ImageSet",
-                column: "NoteEntityId");
+                column: "NoteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NoteSet_NoteTypeEntityId",
+                name: "IX_NoteSet_NoteTypeId",
                 table: "NoteSet",
-                column: "NoteTypeEntityId");
+                column: "NoteTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NoteTypeSet_UserId",

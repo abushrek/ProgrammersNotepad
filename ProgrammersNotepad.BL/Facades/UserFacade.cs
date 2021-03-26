@@ -4,28 +4,26 @@ using ProgrammersNotepad.BL.Facades.Interfaces;
 using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Repositories.Interfaces;
-using ProgrammersNotepad.Models.Detail;
-using ProgrammersNotepad.Models.List;
+using ProgrammersNotepad.Models.Interfaces.User;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class UserFacade:BaseListDetailFacade<UserListModel, UserDetailModel, UserEntity>, IUserFacade<UserListModel>, IUserFacade<UserDetailModel>
+    public class UserFacade<TUserModel>:BaseDetailFacade<TUserModel, UserEntity>, IUserFacade<TUserModel> where TUserModel:IUserModel
     {
         public new IUserRepository<UserEntity> Repository { get; protected set; }
-        public UserFacade(IUserRepository<UserEntity> repository, IMapper<UserDetailModel, UserEntity> mapper, IMapper<UserListModel, UserEntity> listMapper) 
-            : base(repository, mapper, listMapper)
+        public UserFacade(IUserRepository<UserEntity> repository, IMapper<TUserModel, UserEntity> mapper) : base(repository, mapper)
         {
             Repository = repository;
         }
-        
-        UserListModel IUserFacade<UserListModel>.GetByUserName(string username)
+
+        public async Task<TUserModel> GetByUserNameAsync(string username)
         {
-            return ListMapper.MapEntityToModel(Repository.GetByUserName(username));
+            return Mapper.MapEntityToModel(await Repository.GetByUserNameAsync(username));
         }
-        
-        async Task<UserDetailModel> IUserFacade<UserDetailModel>.GetByUserNameAsync(string username)
+
+        public TUserModel GetByUserName(string username)
         {
-            return DetailMapper.MapEntityToModel(await Repository.GetByUserNameAsync(username));
+            return Mapper.MapEntityToModel(Repository.GetByUserName(username));
         }
 
         public bool Exists(string username)
@@ -36,16 +34,6 @@ namespace ProgrammersNotepad.BL.Facades
         public Task<bool> ExistsAsync(string username)
         {
             return Repository.ExistsAsync(username);
-        }
-
-        UserDetailModel IUserFacade<UserDetailModel>.GetByUserName(string username)
-        {
-            return DetailMapper.MapEntityToModel(Repository.GetByUserName(username));
-        }
-
-        async Task<UserListModel> IUserFacade<UserListModel>.GetByUserNameAsync(string username)
-        {
-            return ListMapper.MapEntityToModel(await Repository.GetByUserNameAsync(username));
         }
 
         public string GetPasswordByUserName(string username)

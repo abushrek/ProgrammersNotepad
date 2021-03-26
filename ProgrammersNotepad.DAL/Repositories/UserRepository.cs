@@ -10,7 +10,7 @@ namespace ProgrammersNotepad.DAL.Repositories
 {
     public class UserRepository:BaseRepository<UserEntity>, IUserRepository<UserEntity>
     {
-        public UserRepository(ProgrammersNotepadDbContext dbContext) : base(dbContext.UserSet, dbContext)
+        public UserRepository(IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory) : base(dbContextFactory.CreateDbContext().UserSet, dbContextFactory)
         {
         }
 

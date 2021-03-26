@@ -7,14 +7,13 @@ namespace ProgrammersNotepad.DAL.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<NoteEntity> ListOfEntities { get; set; }
         public virtual UserEntity User { get; set; }
-
+        public virtual ICollection<NoteEntity> NoteCollection { get; set; }
         public bool Equals(NoteTypeEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Name == other.Name && Description == other.Description && Equals(ListOfEntities, other.ListOfEntities);
+            return base.Equals(other) && Name == other.Name && Description == other.Description && Equals(User, other.User);
         }
 
         public override bool Equals(object obj)
@@ -27,7 +26,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Name, Description, ListOfEntities);
+            return HashCode.Combine(base.GetHashCode(), Name, Description, User);
         }
     }
 }

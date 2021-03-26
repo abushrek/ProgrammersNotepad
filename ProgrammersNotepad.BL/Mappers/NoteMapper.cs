@@ -11,10 +11,12 @@ namespace ProgrammersNotepad.BL.Mappers
 {
     public class NoteMapper:IMapper<NoteDetailModel,NoteEntity>, IMapper<NoteListModel,NoteEntity>
     {
-        private readonly IMapper<ImageDetailModel, ImageEntity> _imageMapper;
-        public NoteMapper(IMapper<ImageDetailModel, ImageEntity> imageMapper)
+        private IMapper<NoteTypeDetailModel, NoteTypeEntity> _noteTypeMapper;
+        private IMapper<NoteTypeListModel, NoteTypeEntity> _noteTypeListMapper;
+        public NoteMapper(IMapper<NoteTypeDetailModel, NoteTypeEntity> noteTypeMapper, IMapper<NoteTypeListModel, NoteTypeEntity> noteTypeListMapper)
         {
-            _imageMapper = imageMapper;
+            _noteTypeMapper = noteTypeMapper;
+            _noteTypeListMapper = noteTypeListMapper;
         }
 
         NoteDetailModel IMapper<NoteDetailModel, NoteEntity>.MapEntityToModel(NoteEntity entity)
@@ -25,7 +27,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 RawText = entity.RawText,
                 FormattedText = entity.FormattedText,
                 Title = entity.Title,
-                ImagesAsBytes = new ObservableCollection<ImageDetailModel>(entity.ImagesAsBytes.Select(_imageMapper.MapEntityToModel))
+                NoteType = _noteTypeMapper.MapEntityToModel(entity.NoteType)
             };
         }
 
@@ -37,7 +39,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 RawText = "",
                 FormattedText = "",
                 Title = model.Title,
-                ImagesAsBytes = new List<ImageEntity>()
+                NoteType = _noteTypeListMapper.MapModelToEntity(model.NoteType)
             };
         }
 
@@ -49,7 +51,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 RawText = model.RawText,
                 FormattedText = model.FormattedText,
                 Title = model.Title,
-                ImagesAsBytes = model.ImagesAsBytes.Select(_imageMapper.MapModelToEntity).ToList()
+                NoteType = _noteTypeMapper.MapModelToEntity(model.NoteType)
             };
         }
 
@@ -58,7 +60,8 @@ namespace ProgrammersNotepad.BL.Mappers
             return new NoteListModel()
             {
                 Id = entity.Id,
-                Title = entity.Title
+                Title = entity.Title,
+                NoteType = _noteTypeListMapper.MapEntityToModel(entity.NoteType)
             };
         }
     }

@@ -6,7 +6,7 @@ namespace ProgrammersNotepad.DAL.Repositories
 {
     public class NoteRepository:BaseRepository<NoteEntity>
     {
-        public NoteRepository(ProgrammersNotepadDbContext dbContext) : base(dbContext.NoteSet, dbContext)
+        public NoteRepository(IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory) : base(dbContextFactory.CreateDbContext().NoteSet, dbContextFactory)
         {
         }
     }

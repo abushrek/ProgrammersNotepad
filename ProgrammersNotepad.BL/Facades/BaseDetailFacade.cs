@@ -11,9 +11,9 @@ using ProgrammersNotepad.Models.Interfaces;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class BaseDetailFacade<TModel, TEntity>:BaseFacade<TModel,TEntity>,IDetailFacade<TModel> where TModel : IDetailModel where TEntity:IEntity
+    public class BaseDetailFacade<TModel, TEntity>:BaseFacade<TModel,TEntity>,IDetailFacade<TModel> where TModel : IModel where TEntity:IEntity
     {
-        protected readonly IMapper<TModel, TEntity> Mapper;
+        protected IMapper<TModel, TEntity> Mapper;
         protected BaseDetailFacade(IRepository<TEntity> repository, IMapper<TModel, TEntity> mapper) : base(repository,mapper)
         {
             Mapper = mapper;
@@ -39,9 +39,9 @@ namespace ProgrammersNotepad.BL.Facades
             return model;
         }
 
-        public virtual void Remove(Guid id)
+        public virtual bool Remove(Guid id)
         {
-            Repository.Remove(id);
+            return Repository.Remove(id);
         }
 
         public virtual async Task RemoveAsync(Guid id, CancellationToken token = default)

@@ -6,26 +6,22 @@ using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Repositories.Interfaces;
 using ProgrammersNotepad.Models.Detail;
+using ProgrammersNotepad.Models.Interfaces.Image;
 using ProgrammersNotepad.Models.List;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class ImageFacade:BaseListDetailFacade<ImageListModel,ImageDetailModel,ImageEntity>, IImageFacade<ImageDetailModel>, IImageFacade<ImageListModel>
+    public class ImageFacade<TIImageModel>:BaseDetailFacade<TIImageModel, ImageEntity>, IImageFacade<TIImageModel> where TIImageModel:IImageModel
     {
         private new IImageRepository<ImageEntity> Repository;
-        public ImageFacade(IImageRepository<ImageEntity> repository, IMapper<ImageDetailModel, ImageEntity> mapper, IMapper<ImageListModel,ImageEntity> listMapper) : base(repository, mapper, listMapper)
+        public ImageFacade(IImageRepository<ImageEntity> repository, IMapper<TIImageModel, ImageEntity> mapper) : base(repository, mapper)
         {
             Repository = repository;
         }
 
-        ICollection<ImageDetailModel> IImageFacade<ImageDetailModel>.GetAllImagesByNoteId(Guid noteId)
+        ICollection<TIImageModel> IImageFacade<TIImageModel>.GetAllImagesByNoteId(Guid noteId)
         {
             return Repository.GetAllByNoteId(noteId).Select(Mapper.MapEntityToModel).ToList();
-        }
-
-        ICollection<ImageListModel> IImageFacade<ImageListModel>.GetAllImagesByNoteId(Guid noteId)
-        {
-            return Repository.GetAllByNoteId(noteId).Select(ListMapper.MapEntityToModel).ToList();
         }
     }
 }

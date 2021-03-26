@@ -17,7 +17,8 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
     {
         private Guid _currentUserId;
         private NoteTypeListModel _selectedType;
-        public new INoteTypeFacade Facade { get; }
+        public new INoteTypeFacade<NoteTypeListModel> Facade { get; }
+        private IUserFacade<UserListModel> _userFacade;
 
         public NoteTypeListModel SelectedType
         {
@@ -39,9 +40,10 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ICommand RemoveAllCommand { get; }
 
-        public NoteTypeListViewModel(INoteTypeFacade facade, IMediator mediator) : base(facade, mediator)
+        public NoteTypeListViewModel(INoteTypeFacade<NoteTypeListModel> facade, IMediator mediator, IUserFacade<UserListModel> userFacade) : base(facade, mediator)
         {
             Facade = facade;
+            _userFacade = userFacade;
             Mediator.Register<LoginMessage>(Login);
             AddCommand = new RelayCommand(Add);
             RemoveCommand = new RelayCommand<NoteTypeListModel>(Remove);
@@ -67,7 +69,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         {
             if (model != null)
             {
-                if(Facade.Remove(model, _currentUserId))
+                if(Facade.Remove(model.Id))
                     Models.Remove(model);
             }
         }
@@ -79,8 +81,9 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
                 Id = Guid.NewGuid(),
                 Name = "New",
                 Description = "",
+                User = _userFacade.GetById(_currentUserId)
             };
-            Facade.Add(model,_currentUserId);
+            Facade.Add(model);
             Models.Add(model);
         }
 

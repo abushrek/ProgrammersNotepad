@@ -1,4 +1,5 @@
 ﻿using ProgrammersNotepad.Models.Interfaces;
+using ProgrammersNotepad.Models.Interfaces.User;
 
 namespace ProgrammersNotepad.Models.List
 {

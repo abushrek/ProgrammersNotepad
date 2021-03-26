@@ -18,37 +18,31 @@ namespace ProgrammersNotepad.DAL.Seed
 
         private static void SeedData(ProgrammersNotepadDbContext dbContext)
         {
-            NoteTypeEntity noteType = new NoteTypeEntity()
-            {
-                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b7fb803c8e1a"),
-                Name = "Type",
-                Description = "Desc",
-                ListOfEntities = new List<NoteEntity>()
-                {
-                }
-            };
-            NoteEntity note = new NoteEntity()
-            {
-                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb804c8e1a"),
-                Title = "Title",
-                RawText = "Desc",
-            };
-            noteType.ListOfEntities.Add(note);
-            dbContext.Add(note);
-            dbContext.Add(noteType);
             var user = new UserEntity
             {
                 Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb803c8e1a"),
                 Username = "john.doe",
                 Password = "pass",
-                Email = "john.doe@example.com",
-                ListOfNoteTypes = new List<NoteTypeEntity>()
-                {
-                    noteType
-                }
+                Email = "john.doe@example.com"
             };
             dbContext.Add(user);
-
+            NoteTypeEntity noteType = new NoteTypeEntity()
+            {
+                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b7fb803c8e1a"),
+                Name = "Type",
+                Description = "Desc",
+                User = user
+            };
+            dbContext.Add(noteType);
+            NoteEntity note = new NoteEntity()
+            {
+                Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb804c8e1a"),
+                Title = "Title",
+                RawText = "Desc",
+                FormattedText = "Formatted txt",
+                NoteType = noteType
+            };
+            dbContext.Add(note);
             var user2 = new UserEntity
             {
                 Id = new Guid("7f7cbc8d-399b-435a-b2d9-b6fb803c8e8a"),
@@ -57,7 +51,6 @@ namespace ProgrammersNotepad.DAL.Seed
                 Email = "alice.cooper@example.com",
             };
             dbContext.Add(user2);
-
             dbContext.SaveChanges();
         }
 

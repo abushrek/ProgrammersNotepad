@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ProgrammersNotepad.Models.Interfaces;
+using ProgrammersNotepad.Models.Interfaces.User;
 
 namespace ProgrammersNotepad.Models.Detail
 {
@@ -8,6 +9,5 @@ namespace ProgrammersNotepad.Models.Detail
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public List<NoteTypeDetailModel> ListOfNoteTypes { get; set; }
     }
 }

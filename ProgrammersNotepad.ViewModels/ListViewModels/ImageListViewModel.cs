@@ -15,6 +15,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ImageListViewModel(IImageFacade<ImageListModel> facade, IMediator mediator) : base(facade, mediator)
         {
+            Facade = facade;
             mediator.Register<SelectedNoteChangedMessage>(SelectedNoteChanged);
         }
 

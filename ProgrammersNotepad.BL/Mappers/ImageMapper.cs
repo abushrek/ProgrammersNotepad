@@ -6,18 +6,14 @@ using ProgrammersNotepad.Models.List;
 
 namespace ProgrammersNotepad.BL.Mappers
 {
-    public class ImageMapper: Lazy<ImageMapper> ,IMapper<ImageDetailModel,ImageEntity>, IMapper<ImageListModel, ImageEntity>
+    public class ImageMapper: IMapper<ImageDetailModel,ImageEntity>, IMapper<ImageListModel, ImageEntity>
     {
-        private readonly IMapper<NoteDetailModel, NoteEntity> _noteMapper;
-
-        public ImageMapper()
+        private IMapper<NoteDetailModel, NoteEntity> _noteMappper;
+        private IMapper<NoteListModel, NoteEntity> _noteListMappper;
+        public ImageMapper(IMapper<NoteDetailModel, NoteEntity> noteMappper, IMapper<NoteListModel, NoteEntity> noteListMappper)
         {
-            
-        }
-
-        public ImageMapper(IMapper<NoteDetailModel, NoteEntity> noteMapper)
-        {
-            _noteMapper = noteMapper;
+            _noteMappper = noteMappper;
+            _noteListMappper = noteListMappper;
         }
 
         public ImageDetailModel MapEntityToModel(ImageEntity entity)
@@ -27,7 +23,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id =  entity.Id,
                 Name =  entity.Name,
                 Content = entity.Content,
-                Note = _noteMapper.MapEntityToModel(entity.Note)
+                Note = _noteMappper.MapEntityToModel(entity.Note)
             };
         }
 
@@ -38,7 +34,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id =  model.Id,
                 Name = "",
                 Content = model.Content,
-                Note = null
+                Note = _noteListMappper.MapModelToEntity(model.Note)
             };
         }
 
@@ -49,7 +45,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 Content = model.Content,
-                Note = _noteMapper.MapModelToEntity(model.Note)
+                Note = _noteMappper.MapModelToEntity(model.Note)
             };
         }
 
@@ -59,6 +55,7 @@ namespace ProgrammersNotepad.BL.Mappers
             {
                 Id = entity.Id,
                 Content = entity.Content,
+                Note = _noteListMappper.MapEntityToModel(entity.Note)
             };
         }
     }

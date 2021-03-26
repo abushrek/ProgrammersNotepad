@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ProgrammersNotepad.DAL.DbContext;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Repositories;
 using ProgrammersNotepad.DAL.Repositories.Interfaces;
@@ -9,7 +11,7 @@ namespace ProgrammersNotepad.DAL.Installers
     {
         public override void Install(IServiceCollection serviceCollection)
         {
-            base.Install(serviceCollection);
+            serviceCollection.AddTransient<IDbContextFactory<ProgrammersNotepadDbContext>, DbContextFactory>();
             serviceCollection.AddTransient<IImageRepository<ImageEntity>, ImageRepository>();
             serviceCollection.AddTransient<IRepository<NoteTypeEntity>, NoteTypeRepository>();
             serviceCollection.AddTransient<IRepository<NoteEntity>, NoteRepository>();

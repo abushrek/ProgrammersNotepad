@@ -14,7 +14,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
     public class NoteListViewModel: BaseListViewModel<NoteListModel>
     {
         private NoteListModel _selectedNote;
-        protected new INoteFacade Facade;
+        protected new INoteFacade<NoteListModel> Facade;
         private NoteTypeListModel _selectedNoteType;
 
         public NoteTypeListModel SelectedNoteType
@@ -45,7 +45,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
 
         public ICommand RemoveCommand { get; }
 
-        public NoteListViewModel(INoteFacade noteFacade, IMediator mediator) : base(noteFacade, mediator)
+        public NoteListViewModel(INoteFacade<NoteListModel> noteFacade, IMediator mediator) : base(noteFacade, mediator)
         {
             Facade = noteFacade;
             AddCommand = new RelayCommand(Add);
@@ -58,7 +58,7 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
         {
             if (model != null)
             {
-                if(Facade.Remove(model, SelectedNoteType.Id))
+                if(Facade.Remove(model.Id))
                     Models.Remove(model);
             }
         }
@@ -74,10 +74,11 @@ namespace ProgrammersNotepad.ViewModels.Annotations.ListViewModels
             NoteListModel model = new NoteListModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "New"
+                Title = "New",
+                NoteType = SelectedNoteType
             };
             Models.Add(model);
-            Facade.Add(model, SelectedNoteType.Id);
+            Facade.Add(model);
         }
 
         private void OnSelectedNoteTypeChanged(SelectedNoteTypeChangedMessage obj)

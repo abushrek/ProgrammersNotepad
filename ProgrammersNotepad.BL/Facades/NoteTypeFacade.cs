@@ -8,81 +8,35 @@ using ProgrammersNotepad.BL.Mappers.Interfaces;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.DAL.Repositories.Interfaces;
 using ProgrammersNotepad.Models.Detail;
+using ProgrammersNotepad.Models.Interfaces.Note;
+using ProgrammersNotepad.Models.Interfaces.NoteType;
 using ProgrammersNotepad.Models.List;
 
 namespace ProgrammersNotepad.BL.Facades
 {
-    public class NoteTypeFacade : BaseListDetailFacade<NoteTypeListModel, NoteTypeDetailModel, NoteTypeEntity>,
-        INoteTypeFacade
+    public class NoteTypeFacade<TNoteTypeModel> : BaseDetailFacade<TNoteTypeModel, NoteTypeEntity>, INoteTypeFacade<TNoteTypeModel> where TNoteTypeModel: INoteTypeModel
     {
-        private IRepository<UserEntity> _userRepository;
 
-        public NoteTypeFacade(IRepository<NoteTypeEntity> repository, IUserRepository<UserEntity> userRepository,
-            IMapper<NoteTypeDetailModel, NoteTypeEntity> detailMapper,
-            IMapper<NoteTypeListModel, NoteTypeEntity> listMapper) : base(repository, detailMapper, listMapper)
+        public NoteTypeFacade(IRepository<NoteTypeEntity> repository, IMapper<TNoteTypeModel, NoteTypeEntity> mapper) : base(repository, mapper)
         {
-            _userRepository = userRepository;
         }
 
-        public IList<NoteTypeListModel> GetAllNoteTypesByUserId(Guid id)
+        public IList<TNoteTypeModel> GetAllNoteTypesByUserId(Guid id)
         {
-            UserEntity user = _userRepository.GetById(id);
-            IEnumerable<NoteTypeEntity> notes = user?.ListOfNoteTypes;
-            return notes?.Select(s => ListMapper.MapEntityToModel(s)).ToList();
+            return Repository.GetAll().Where(s => s.User?.Id == id).Select(Mapper.MapEntityToModel).ToList();
         }
 
-        public async Task<IList<NoteTypeListModel>> GetAllNoteTypesByUserIdAsync(Guid id)
+        public async Task<IList<TNoteTypeModel>> GetAllNoteTypesByUserIdAsync(Guid id)
         {
-            return (await _userRepository.GetByIdAsync(id))?.ListOfNoteTypes?.Select(ListMapper.MapEntityToModel)
-                .ToList();
-        }
-
-        public NoteTypeListModel Add(NoteTypeListModel model, Guid userId)
-        {
-            if (model == null)
-                throw new ArgumentNullException();
-            NoteTypeEntity noteTypeEntity = ListMapper.MapModelToEntity(model);
-            if (Repository.Add(noteTypeEntity) == null)
-                return default;
-            UserEntity entity = _userRepository.GetById(userId);
-            entity.ListOfNoteTypes.Add(noteTypeEntity);
-            _userRepository.Update(entity);
-            return model;
-        }
-
-        public bool Remove(NoteTypeListModel type, Guid userId)
-        {
-            UserEntity entity = _userRepository.GetById(userId);
-            NoteTypeEntity noteEntity = entity.ListOfNoteTypes.FirstOrDefault(s => s.Id == type.Id);
-            if (noteEntity == null) 
-                return false;
-            if (!Repository.Remove(type.Id))
-                return false;
-            entity.ListOfNoteTypes.Remove(noteEntity);
-            _userRepository.Update(entity);
-            return true;
+            return (await Repository.GetAllAsync())?.Where(s=>s.User?.Id == id).Select(Mapper.MapEntityToModel).ToList();
         }
 
         public void ClearAllByUserId(Guid userId)
         {
-            UserEntity entity = _userRepository.GetById(userId);
-            foreach (NoteTypeEntity typeEntity in entity.ListOfNoteTypes)
+            foreach (NoteTypeEntity typeEntity in Repository.GetAll().Where(s=>s.User?.Id == userId))
             {
-                Remove(ListMapper.MapEntityToModel(typeEntity), userId);
+                Repository.Remove(typeEntity.Id);
             }
-        }
-
-        public async Task<NoteTypeListModel> AddAsync(NoteTypeListModel model, Guid userId, CancellationToken token = default)
-        {
-            if (model == null)
-                throw new ArgumentNullException();
-            NoteTypeEntity noteTypeEntity = ListMapper.MapModelToEntity(model);
-            if (await Repository.AddAsync(noteTypeEntity, token) == null)
-                return default;
-            UserEntity entity = await _userRepository.GetByIdAsync(userId, token);
-            entity.ListOfNoteTypes.Add(noteTypeEntity);
-            await _userRepository.UpdateAsync(entity, token);
-            return model;
         }
     }
 }

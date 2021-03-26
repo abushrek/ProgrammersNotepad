@@ -10,6 +10,7 @@ using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.DAL.Entities;
 using ProgrammersNotepad.Models.Detail;
+using ProgrammersNotepad.Models.Interfaces.User;
 using ProgrammersNotepad.ViewModels.BaseClasses;
 
 namespace ProgrammersNotepad.ViewModels.DetailViewModels

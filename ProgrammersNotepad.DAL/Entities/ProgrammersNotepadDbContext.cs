@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProgrammersNotepad.DAL.Entities
 {
-    public class ProgrammersNotepadDbContext:DbContext
+    public class ProgrammersNotepadDbContext:Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<NoteTypeEntity> NoteTypeSet { get; set; }
         public DbSet<NoteEntity> NoteSet { get; set; }
@@ -21,19 +21,15 @@ namespace ProgrammersNotepad.DAL.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<NoteEntity>().HasMany(i => i.ImagesAsBytes);
-            modelBuilder.Entity<NoteTypeEntity>().HasMany(i => i.ListOfEntities);
-            modelBuilder.Entity<UserEntity>().HasMany(i => i.ListOfNoteTypes).WithOne(s=>s.User).OnDelete(DeleteBehavior.Cascade);
-
-            //add-migration Initial
-            //remove-migration
+            modelBuilder.Entity<UserEntity>().HasMany(s => s.NoteTypeCollection).WithOne(s => s.User);
+            modelBuilder.Entity<NoteTypeEntity>().HasMany(s=>s.NoteCollection).WithOne(s=>s.NoteType);
+            modelBuilder.Entity<NoteEntity>().HasMany(s=>s.ImageCollection).WithOne(s=>s.Note);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
-            options.UseLazyLoadingProxies().UseSqlServer(
-                "Server=(localdb)\\mssqllocaldb;Database=ProgrammersNotepadDb;Trusted_Connection=True;", builder =>
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Database=ProgrammersNotepadDb;MultipleActiveResultSets=True;Integrated Security=True;", builder =>
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
 

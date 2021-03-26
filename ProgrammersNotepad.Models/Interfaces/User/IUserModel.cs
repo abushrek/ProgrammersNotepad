@@ -1,5 +1,5 @@
 ﻿
-namespace ProgrammersNotepad.Models.Interfaces
+namespace ProgrammersNotepad.Models.Interfaces.User
 {
     public interface IUserModel:IModel
     {

@@ -49,8 +49,8 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
         private void Attach()
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            
-            if (dlg.ShowDialog() != null && dlg.ShowDialog() == true)
+            bool? show = dlg.ShowDialog();
+            if (show != null && show == true)
             {
                 string fileName;
                 fileName = dlg.FileName;
@@ -62,7 +62,6 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
                     Note = Model
                 };
                 _imageFadace.Add(model);
-                Model.ImagesAsBytes.Add(model);
             }
         }
 

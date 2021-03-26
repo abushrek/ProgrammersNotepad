@@ -10,7 +10,7 @@ using ProgrammersNotepad.DAL.Entities;
 namespace ProgrammersNotepad.DAL.Migrations
 {
     [DbContext(typeof(ProgrammersNotepadDbContext))]
-    [Migration("20210324122507_Initial")]
+    [Migration("20210326125332_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,12 +33,12 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("NoteEntityId")
+                    b.Property<Guid?>("NoteId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NoteEntityId");
+                    b.HasIndex("NoteId");
 
                     b.ToTable("ImageSet");
                 });
@@ -52,7 +52,7 @@ namespace ProgrammersNotepad.DAL.Migrations
                     b.Property<string>("FormattedText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("NoteTypeEntityId")
+                    b.Property<Guid?>("NoteTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RawText")
@@ -63,7 +63,7 @@ namespace ProgrammersNotepad.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NoteTypeEntityId");
+                    b.HasIndex("NoteTypeId");
 
                     b.ToTable("NoteSet");
                 });
@@ -112,41 +112,44 @@ namespace ProgrammersNotepad.DAL.Migrations
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.ImageEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteEntity", null)
-                        .WithMany("ImagesAsBytes")
-                        .HasForeignKey("NoteEntityId");
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteEntity", "Note")
+                        .WithMany("ImageCollection")
+                        .HasForeignKey("NoteId");
+
+                    b.Navigation("Note");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
-                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", null)
-                        .WithMany("ListOfEntities")
-                        .HasForeignKey("NoteTypeEntityId");
+                    b.HasOne("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", "NoteType")
+                        .WithMany("NoteCollection")
+                        .HasForeignKey("NoteTypeId");
+
+                    b.Navigation("NoteType");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>
                 {
                     b.HasOne("ProgrammersNotepad.DAL.Entities.UserEntity", "User")
-                        .WithMany("ListOfNoteTypes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("NoteTypeCollection")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteEntity", b =>
                 {
-                    b.Navigation("ImagesAsBytes");
+                    b.Navigation("ImageCollection");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.NoteTypeEntity", b =>
                 {
-                    b.Navigation("ListOfEntities");
+                    b.Navigation("NoteCollection");
                 });
 
             modelBuilder.Entity("ProgrammersNotepad.DAL.Entities.UserEntity", b =>
                 {
-                    b.Navigation("ListOfNoteTypes");
+                    b.Navigation("NoteTypeCollection");
                 });
 #pragma warning restore 612, 618
         }

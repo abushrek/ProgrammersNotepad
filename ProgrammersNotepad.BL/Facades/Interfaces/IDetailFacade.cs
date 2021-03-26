@@ -9,7 +9,7 @@ namespace ProgrammersNotepad.BL.Facades.Interfaces
     {
         TModel Add(TModel model);
         Task<TModel> AddAsync(TModel model, CancellationToken token = default);
-        void Remove(Guid id);
+        bool Remove(Guid id);
         Task RemoveAsync(Guid id, CancellationToken token = default);
         void Update(TModel model);
         Task UpdateAsync(TModel model, CancellationToken token = default);

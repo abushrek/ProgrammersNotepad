@@ -9,11 +9,13 @@ namespace ProgrammersNotepad.BL.Mappers
 {
     public class NoteTypeMapper:IMapper<NoteTypeDetailModel,NoteTypeEntity>, IMapper<NoteTypeListModel,NoteTypeEntity>
     {
-        private readonly IMapper<NoteDetailModel, NoteEntity> _noteMapper;
+        private IMapper<UserDetailModel, UserEntity> _userMapper;
+        private IMapper<UserListModel, UserEntity> _userListMapper;
 
-        public NoteTypeMapper(IMapper<NoteDetailModel, NoteEntity> noteMapper)
+        public NoteTypeMapper(IMapper<UserDetailModel, UserEntity> userMapper, IMapper<UserListModel, UserEntity> userListMapper)
         {
-            _noteMapper = noteMapper;
+            _userMapper = userMapper;
+            _userListMapper = userListMapper;
         }
 
         NoteTypeDetailModel IMapper<NoteTypeDetailModel, NoteTypeEntity>.MapEntityToModel(NoteTypeEntity entity)
@@ -23,7 +25,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = entity.Id,
                 Name = entity.Name,
                 Description =  entity.Description,
-                ListOfNotes = entity.ListOfEntities.Select(_noteMapper.MapEntityToModel).ToList()
+                User = _userMapper.MapEntityToModel(entity.User)
             };
         }
 
@@ -34,7 +36,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 Description =  model.Description,
-                ListOfEntities = new List<NoteEntity>()
+                User = _userListMapper.MapModelToEntity(model.User)
             };
         }
 
@@ -45,7 +47,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
-                ListOfEntities = model.ListOfNotes.Select(_noteMapper.MapModelToEntity).ToList()
+                User = _userMapper.MapModelToEntity(model.User)
             };
         }
 
@@ -56,6 +58,7 @@ namespace ProgrammersNotepad.BL.Mappers
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
+                User = _userListMapper.MapEntityToModel(entity.User)
             };
         }
     }
