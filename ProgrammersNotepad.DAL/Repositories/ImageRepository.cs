@@ -18,6 +18,26 @@ namespace ProgrammersNotepad.DAL.Repositories
 
         }
 
+        public override ImageEntity Add(ImageEntity entity)
+        {
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                if (entity == null)
+                    throw new ArgumentNullException();
+                if (!Exists(entity))
+                    if (dbContext.GetDatabaseByType<ImageEntity>().Add(entity) != null)
+                    {
+                        if (entity.Note != null)
+                        {
+                            dbContext.Entry(entity.Note).State = EntityState.Unchanged;
+                        }
+                        dbContext.SaveChanges();
+                        return entity;
+                    }
+            }
+            return null;
+        }
+
         public IEnumerable<ImageEntity> GetAllByNoteId(Guid id)
         {
             using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())

@@ -15,6 +15,26 @@ namespace ProgrammersNotepad.DAL.Repositories
         {
         }
 
+        public override NoteTypeEntity Add(NoteTypeEntity entity)
+        {
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                if (entity == null)
+                    throw new ArgumentNullException();
+                if (!Exists(entity))
+                    if (dbContext.GetDatabaseByType<NoteTypeEntity>().Add(entity) != null)
+                    {
+                        if (entity.User != null)
+                        {
+                            dbContext.Entry(entity.User).State = EntityState.Unchanged;
+                        }
+                        dbContext.SaveChanges();
+                        return entity;
+                    }
+            }
+            return null;
+        }
+
         public IEnumerable<NoteTypeEntity> GetAllNoteTypesByUserId(Guid id)
         {
             using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
