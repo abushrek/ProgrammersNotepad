@@ -22,7 +22,7 @@ namespace ProgrammersNotepad.DAL.Repositories
         {
             using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
             {
-                return dbContext.ImageSet.Where(s => s.Note.Id == id);
+                return dbContext.ImageSet.Where(s => s.Note.Id == id).ToList();
             }
         }
 

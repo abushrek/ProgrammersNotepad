@@ -18,11 +18,12 @@ namespace ProgrammersNotepad.DAL.Repositories
             DbContextFactory = dbContextFactory;
         }
 
-        public virtual IList<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
             {
-                return dbContext.GetDatabaseByType<TEntity>().ToList();
+                IEnumerable<TEntity> baseEntities = dbContext.GetDatabaseByType<TEntity>().ToList();
+                return baseEntities;
             }
         }
 
@@ -78,11 +79,12 @@ namespace ProgrammersNotepad.DAL.Repositories
             {
                 if (entity == null)
                     throw new ArgumentNullException();
-                if (dbContext.GetDatabaseByType<TEntity>().Add(entity) != null)
-                {
-                    dbContext.SaveChanges();
-                    return entity;
-                }
+                if(!Exists(entity))
+                    if (dbContext.GetDatabaseByType<TEntity>().Add(entity) != null)
+                    {
+                        dbContext.SaveChanges();
+                        return entity;
+                    }
             }
             return default;
         }
@@ -126,7 +128,7 @@ namespace ProgrammersNotepad.DAL.Repositories
         {
             using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
             {
-                return await dbContext.GetDatabaseByType<TEntity>().AnyAsync(s => s.Equals(entity), token);
+                return await dbContext.GetDatabaseByType<TEntity>().AnyAsync(s => s.Equals(entity) || (entity != null && s.Id == entity.Id), token);
             }
         }
     }

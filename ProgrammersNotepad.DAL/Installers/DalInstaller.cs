@@ -13,8 +13,8 @@ namespace ProgrammersNotepad.DAL.Installers
         {
             serviceCollection.AddTransient<IDbContextFactory<ProgrammersNotepadDbContext>, DbContextFactory>();
             serviceCollection.AddTransient<IImageRepository<ImageEntity>, ImageRepository>();
-            serviceCollection.AddTransient<IRepository<NoteTypeEntity>, NoteTypeRepository>();
-            serviceCollection.AddTransient<IRepository<NoteEntity>, NoteRepository>();
+            serviceCollection.AddTransient<INoteTypeRepository<NoteTypeEntity>, NoteTypeRepository>();
+            serviceCollection.AddTransient<INoteRepository<NoteEntity>, NoteRepository>();
             serviceCollection.AddTransient<IUserRepository<UserEntity>, UserRepository>();
         }
     }

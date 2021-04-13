@@ -8,7 +8,7 @@ namespace ProgrammersNotepad.DAL.Repositories.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {
-        IList<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll();
         Task<List<TEntity>> GetAllAsync(CancellationToken token = default);
         TEntity GetById(Guid id);
         Task<TEntity> GetByIdAsync(Guid id, CancellationToken token = default);

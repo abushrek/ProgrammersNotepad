@@ -13,13 +13,15 @@ namespace ProgrammersNotepad.BL.Facades
 {
     public class NoteFacade<TNoteModel>:BaseDetailFacade<TNoteModel, NoteEntity>, INoteFacade<TNoteModel> where TNoteModel:INoteModel
     {
-        public NoteFacade(IRepository<NoteEntity> repository, IMapper<TNoteModel, NoteEntity> mapper) : base(repository, mapper)
+        protected new INoteRepository<NoteEntity> Repository; 
+        public NoteFacade(INoteRepository<NoteEntity> repository, IMapper<TNoteModel, NoteEntity> mapper) : base(repository, mapper)
         {
+            Repository = repository;
         }
 
-        public ICollection<TNoteModel> GetAllNotesByNoteType(Guid typeId)
+        public IList<TNoteModel> GetAllNotesByNoteType(Guid typeId)
         {
-            return Repository.GetAll().Where(s => s.NoteType?.Id == typeId).Select(Mapper.MapEntityToModel).ToList();
+            return Repository.GetAllNotesByNoteType(typeId).Select(Mapper.MapEntityToModel).ToList();
         }
     }
 }

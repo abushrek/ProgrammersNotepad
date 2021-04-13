@@ -16,6 +16,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         UserDetailModel IMapper<UserDetailModel, UserEntity>.MapEntityToModel(UserEntity entity)
         {
+            if (entity == null)
+                return new UserDetailModel();
             return new UserDetailModel()
             {
                 Id = entity.Id,
@@ -27,6 +29,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public UserEntity MapModelToEntity(UserListModel model)
         {
+            if (model == null)
+                return new UserEntity();
             return new UserEntity()
             {
                 Id = model.Id,
@@ -38,6 +42,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public UserEntity MapModelToEntity(UserDetailModel model)
         {
+            if (model == null)
+                return new UserEntity();
             return new UserEntity()
             {
                 Id = model.Id,
@@ -49,6 +55,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         UserListModel IMapper<UserListModel, UserEntity>.MapEntityToModel(UserEntity entity)
         {
+            if(entity == null)
+                return new UserListModel();
             return new UserListModel()
             {
                 Id = entity.Id,

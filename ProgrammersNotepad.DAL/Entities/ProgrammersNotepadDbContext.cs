@@ -48,8 +48,8 @@ namespace ProgrammersNotepad.DAL.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>().HasMany(s => s.NoteTypeCollection).WithOne(s => s.User);
-            modelBuilder.Entity<NoteTypeEntity>().HasMany(s=>s.NoteCollection).WithOne(s=>s.NoteType);
-            modelBuilder.Entity<NoteEntity>().HasMany(s=>s.ImageCollection).WithOne(s=>s.Note);
+            modelBuilder.Entity<NoteTypeEntity>().HasMany(s => s.NoteCollection).WithOne(s => s.NoteType);
+            modelBuilder.Entity<NoteEntity>().HasMany(s => s.ImageCollection).WithOne(s => s.Note);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

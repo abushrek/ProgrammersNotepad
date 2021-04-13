@@ -20,6 +20,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         NoteTypeDetailModel IMapper<NoteTypeDetailModel, NoteTypeEntity>.MapEntityToModel(NoteTypeEntity entity)
         {
+            if(entity == null)
+                return new NoteTypeDetailModel();
             return new NoteTypeDetailModel()
             {
                 Id = entity.Id,
@@ -31,28 +33,36 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public NoteTypeEntity MapModelToEntity(NoteTypeListModel model)
         {
+            if(model == null)
+                return new NoteTypeEntity();
             return new NoteTypeEntity()
             {
                 Id = model.Id,
                 Name = model.Name,
                 Description =  model.Description,
-                User = _userListMapper.MapModelToEntity(model.User)
+                User = _userListMapper.MapModelToEntity(model.User),
+                NoteCollection = new List<NoteEntity>()
             };
         }
 
         public NoteTypeEntity MapModelToEntity(NoteTypeDetailModel model)
         {
+            if(model == null)
+                return new NoteTypeEntity();
             return new NoteTypeEntity()
             {
                 Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
-                User = _userMapper.MapModelToEntity(model.User)
+                User = _userMapper.MapModelToEntity(model.User),
+                NoteCollection = new List<NoteEntity>()
             };
         }
 
         NoteTypeListModel IMapper<NoteTypeListModel, NoteTypeEntity>.MapEntityToModel(NoteTypeEntity entity)
         {
+            if(entity == null)
+                return new NoteTypeListModel();
             return new NoteTypeListModel()
             {
                 Id = entity.Id,

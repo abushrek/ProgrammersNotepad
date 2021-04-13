@@ -16,27 +16,26 @@ namespace ProgrammersNotepad.BL.Facades
 {
     public class NoteTypeFacade<TNoteTypeModel> : BaseDetailFacade<TNoteTypeModel, NoteTypeEntity>, INoteTypeFacade<TNoteTypeModel> where TNoteTypeModel: INoteTypeModel
     {
-
-        public NoteTypeFacade(IRepository<NoteTypeEntity> repository, IMapper<TNoteTypeModel, NoteTypeEntity> mapper) : base(repository, mapper)
+        protected new INoteTypeRepository<NoteTypeEntity> Repository;
+        public NoteTypeFacade(INoteTypeRepository<NoteTypeEntity> repository, IMapper<TNoteTypeModel, NoteTypeEntity> mapper) : base(repository, mapper)
         {
+            Repository = repository;
         }
 
         public IList<TNoteTypeModel> GetAllNoteTypesByUserId(Guid id)
         {
-            return Repository.GetAll().Where(s => s.User?.Id == id).Select(Mapper.MapEntityToModel).ToList();
+            return Repository.GetAllNoteTypesByUserId(id).Select(Mapper.MapEntityToModel).ToList();
         }
 
-        public async Task<IList<TNoteTypeModel>> GetAllNoteTypesByUserIdAsync(Guid id)
+        public async Task<IList<TNoteTypeModel>> GetAllNoteTypesByUserIdAsync(Guid id, CancellationToken token = default)
         {
-            return (await Repository.GetAllAsync())?.Where(s=>s.User?.Id == id).Select(Mapper.MapEntityToModel).ToList();
+
+            return (await Repository.GetAllNoteTypesByUserIdAsync(id,token)).Select(Mapper.MapEntityToModel).ToList();
         }
 
         public void ClearAllByUserId(Guid userId)
         {
-            foreach (NoteTypeEntity typeEntity in Repository.GetAll().Where(s=>s.User?.Id == userId))
-            {
-                Repository.Remove(typeEntity.Id);
-            }
+            Repository.ClearAllByUserId(userId);
         }
     }
 }

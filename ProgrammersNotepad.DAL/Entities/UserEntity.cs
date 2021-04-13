@@ -10,6 +10,12 @@ namespace ProgrammersNotepad.DAL.Entities
         public string Password { get; set; }
         public string Email { get; set; }
         public virtual ICollection<NoteTypeEntity> NoteTypeCollection { get; set; }
+
+        public UserEntity()
+        {
+            NoteTypeCollection = new List<NoteTypeEntity>();    
+        }
+
         public bool Equals(UserEntity other)
         {
             if (ReferenceEquals(null, other)) return false;

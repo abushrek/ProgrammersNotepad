@@ -18,6 +18,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public ImageDetailModel MapEntityToModel(ImageEntity entity)
         {
+            if (entity == null)
+                return new ImageDetailModel();
             return new ImageDetailModel
             {
                 Id =  entity.Id,
@@ -29,6 +31,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public ImageEntity MapModelToEntity(ImageListModel model)
         {
+            if (model == null)
+                return new ImageEntity();
             return new ImageEntity()
             {
                 Id =  model.Id,
@@ -40,6 +44,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public ImageEntity MapModelToEntity(ImageDetailModel model)
         {
+            if (model == null)
+                return new ImageEntity();
             return new ImageEntity
             {
                 Id = model.Id,
@@ -51,6 +57,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         ImageListModel IMapper<ImageListModel, ImageEntity>.MapEntityToModel(ImageEntity entity)
         {
+            if (entity == null)
+                return new ImageListModel();
             return new ImageListModel()
             {
                 Id = entity.Id,

@@ -10,7 +10,7 @@ using ProgrammersNotepad.DAL.Entities;
 namespace ProgrammersNotepad.DAL.Migrations
 {
     [DbContext(typeof(ProgrammersNotepadDbContext))]
-    [Migration("20210326125332_Initial")]
+    [Migration("20210413161932_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

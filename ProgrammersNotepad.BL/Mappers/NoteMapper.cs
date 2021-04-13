@@ -21,6 +21,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         NoteDetailModel IMapper<NoteDetailModel, NoteEntity>.MapEntityToModel(NoteEntity entity)
         {
+            if (entity == null)
+                return new NoteDetailModel();
             return new NoteDetailModel()
             {
                 Id = entity.Id,
@@ -33,6 +35,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public NoteEntity MapModelToEntity(NoteListModel model)
         {
+            if (model == null)
+                return new NoteEntity();
             return new NoteEntity()
             {
                 Id = model.Id,
@@ -45,6 +49,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         public NoteEntity MapModelToEntity(NoteDetailModel model)
         {
+            if (model == null)
+                return new NoteEntity();
             return new NoteEntity()
             {
                 Id = model.Id,
@@ -57,6 +63,8 @@ namespace ProgrammersNotepad.BL.Mappers
 
         NoteListModel IMapper<NoteListModel, NoteEntity>.MapEntityToModel(NoteEntity entity)
         {
+            if (entity == null)
+                return new NoteListModel();
             return new NoteListModel()
             {
                 Id = entity.Id,

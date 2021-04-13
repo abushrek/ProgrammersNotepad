@@ -12,6 +12,10 @@ namespace ProgrammersNotepad.DAL.Entities
         public virtual NoteTypeEntity NoteType { get; set; }
         public virtual ICollection<ImageEntity> ImageCollection { get; set; }
 
+        public NoteEntity()
+        {
+            ImageCollection = new List<ImageEntity>();
+        }
 
         public bool Equals(NoteEntity other)
         {
