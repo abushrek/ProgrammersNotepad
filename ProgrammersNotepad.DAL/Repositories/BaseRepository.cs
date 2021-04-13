@@ -11,33 +11,44 @@ namespace ProgrammersNotepad.DAL.Repositories
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        protected DbSet<TEntity> SetOfEntities;
         protected IDbContextFactory<ProgrammersNotepadDbContext> DbContextFactory;
 
-        protected BaseRepository(DbSet<TEntity> setOfEntities, IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory)
+        protected BaseRepository(IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory)
         {
-            SetOfEntities = setOfEntities;
             DbContextFactory = dbContextFactory;
         }
 
         public virtual IList<TEntity> GetAll()
         {
-            return SetOfEntities.ToList();
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return dbContext.GetDatabaseByType<TEntity>().ToList();
+            }
         }
 
         public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken token = default)
         {
-            return await SetOfEntities.ToListAsync(cancellationToken: token);
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return await dbContext.GetDatabaseByType<TEntity>().ToListAsync(cancellationToken: token);
+            }
+            
         }
 
         public virtual TEntity GetById(Guid id)
         {
-            return SetOfEntities.FirstOrDefault(s => s.Id == id);
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return dbContext.GetDatabaseByType<TEntity>().FirstOrDefault(s => s.Id == id);
+            }
         }
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return await SetOfEntities.FirstOrDefaultAsync(s => s.Id == id, cancellationToken: token);
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return await dbContext.GetDatabaseByType<TEntity>().FirstOrDefaultAsync(s => s.Id == id, cancellationToken: token);
+            }
         }
 
         public virtual bool Remove(Guid id)
@@ -47,7 +58,7 @@ namespace ProgrammersNotepad.DAL.Repositories
                 TEntity entity = GetById(id);
                 if (entity == null)
                     return false;
-                if (SetOfEntities.Remove(entity) != null)
+                if (dbContext.GetDatabaseByType<TEntity>().Remove(entity) != null)
                 {
                     dbContext.SaveChanges();
                     return true;
@@ -67,7 +78,7 @@ namespace ProgrammersNotepad.DAL.Repositories
             {
                 if (entity == null)
                     throw new ArgumentNullException();
-                if (SetOfEntities.Add(entity) != null)
+                if (dbContext.GetDatabaseByType<TEntity>().Add(entity) != null)
                 {
                     dbContext.SaveChanges();
                     return entity;
@@ -87,9 +98,9 @@ namespace ProgrammersNotepad.DAL.Repositories
             {
                 if (entity == null)
                     throw new ArgumentNullException();
-                if (SetOfEntities.All(s => s.Id != entity.Id))
-                    SetOfEntities.Add(entity);
-                TEntity entry = SetOfEntities.FirstOrDefault(s => s.Id == entity.Id);
+                if (dbContext.GetDatabaseByType<TEntity>().All(s => s.Id != entity.Id))
+                    dbContext.GetDatabaseByType<TEntity>().Add(entity);
+                TEntity entry = dbContext.GetDatabaseByType<TEntity>().FirstOrDefault(s => s.Id == entity.Id);
                 if (entry != null)
                 {
                     dbContext.Entry<TEntity>(entry).CurrentValues.SetValues(entity);
@@ -105,12 +116,18 @@ namespace ProgrammersNotepad.DAL.Repositories
 
         public virtual bool Exists(TEntity entity)
         {
-            return SetOfEntities.Any(s => s.Equals(entity));
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return dbContext.GetDatabaseByType<TEntity>().Any(s => s.Equals(entity));
+            }
         }
 
-        public virtual async Task<bool> ExistsAsync(TEntity entity)
+        public virtual async Task<bool> ExistsAsync(TEntity entity, CancellationToken token = default)
         {
-            return await SetOfEntities.AnyAsync(s => s.Equals(entity));
+            using (ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+            {
+                return await dbContext.GetDatabaseByType<TEntity>().AnyAsync(s => s.Equals(entity), token);
+            }
         }
     }
 }

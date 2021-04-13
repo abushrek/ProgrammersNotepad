@@ -10,38 +10,44 @@ namespace ProgrammersNotepad.DAL.Repositories
 {
     public class UserRepository:BaseRepository<UserEntity>, IUserRepository<UserEntity>
     {
-        public UserRepository(IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory) : base(dbContextFactory.CreateDbContext().UserSet, dbContextFactory)
+        public UserRepository(IDbContextFactory<ProgrammersNotepadDbContext> dbContextFactory) : base(dbContextFactory)
         {
         }
 
         public UserEntity GetByUserName(string username)
         {
-            return SetOfEntities.FirstOrDefault(s => s.Username == username);
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return dbContext.GetDatabaseByType<UserEntity>().FirstOrDefault(s => s.Username == username);
         }
 
         public async Task<UserEntity> GetByUserNameAsync(string username)
         {
-            return await SetOfEntities.FirstOrDefaultAsync(s => s.Username == username);
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return await dbContext.GetDatabaseByType<UserEntity>().FirstOrDefaultAsync(s => s.Username == username);
         }
 
         public string GetPasswordByUserName(string username)
         {
-            return SetOfEntities.FirstOrDefault(s => s.Username == username)?.Password;
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return dbContext.GetDatabaseByType<UserEntity>().FirstOrDefault(s => s.Username == username)?.Password;
         }
 
         public async Task<string> GetPasswordByUserNameAsync(string username)
         {
-            return (await SetOfEntities.FirstOrDefaultAsync(s => s.Username == username))?.Password;
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return (await dbContext.GetDatabaseByType<UserEntity>().FirstOrDefaultAsync(s => s.Username == username))?.Password;
         }
 
         public bool Exists(string username)
         {
-            return SetOfEntities.Any(s => s.Username == username);
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return dbContext.GetDatabaseByType<UserEntity>().Any(s => s.Username == username);
         }
 
         public async Task<bool> ExistsAsync(string username)
         {
-            return await SetOfEntities.AnyAsync(s => s.Username == username);
+            using(ProgrammersNotepadDbContext dbContext = DbContextFactory.CreateDbContext())
+                return await dbContext.GetDatabaseByType<UserEntity>().AnyAsync(s => s.Username == username);
         }
     }
 }

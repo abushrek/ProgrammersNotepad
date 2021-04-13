@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using ProgrammersNotepad.DAL.Entities.Interfaces;
 
 namespace ProgrammersNotepad.DAL.Entities
 {
@@ -19,6 +20,31 @@ namespace ProgrammersNotepad.DAL.Entities
         {
         }
 
+        public DbSet<T> GetDatabaseByType<T>() where T : class, IEntity
+        {
+            if (typeof(T) == typeof(NoteTypeEntity))
+            {
+                if (NoteTypeSet != null) 
+                    return NoteTypeSet as DbSet<T>;
+            }
+            if (typeof(T) == typeof(NoteEntity))
+            {
+                if (NoteSet != null)
+                    return NoteSet as DbSet<T>;
+            }
+            if (typeof(T) == typeof(UserEntity))
+            {
+                if (NoteTypeSet != null)
+                    return UserSet as DbSet<T>;
+            }
+            if (typeof(T) == typeof(ImageEntity))
+            {
+                if (NoteTypeSet != null)
+                    return ImageSet as DbSet<T>;
+            }
+            throw new ArgumentException();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>().HasMany(s => s.NoteTypeCollection).WithOne(s => s.User);
@@ -30,10 +56,9 @@ namespace ProgrammersNotepad.DAL.Entities
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseLazyLoadingProxies().UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Database=ProgrammersNotepadDb;MultipleActiveResultSets=True;Integrated Security=True;", builder =>
-                {
-                    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-
-                });
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
         }
     }
 }
