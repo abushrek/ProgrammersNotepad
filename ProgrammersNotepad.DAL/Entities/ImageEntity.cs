@@ -7,14 +7,14 @@ namespace ProgrammersNotepad.DAL.Entities
     public class ImageEntity:BaseEntity, IEquatable<ImageEntity>
     {
         public string Name { get; set; }
-        public byte[] Content { get; set; }
+        public string FilePath { get; set; }
         public virtual NoteEntity Note { get; set; }
 
         public bool Equals(ImageEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Name == other.Name && Equals(Content, other.Content);
+            return base.Equals(other) && Name == other.Name && FilePath == other.FilePath && Equals(Note, other.Note);
         }
 
         public override bool Equals(object obj)
@@ -27,7 +27,7 @@ namespace ProgrammersNotepad.DAL.Entities
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(base.GetHashCode(), Name, Content);
+            return HashCode.Combine(base.GetHashCode(), Name, FilePath, Note);
         }
     }
 }

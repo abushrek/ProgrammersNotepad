@@ -10,7 +10,7 @@ using ProgrammersNotepad.DAL.Entities;
 namespace ProgrammersNotepad.DAL.Migrations
 {
     [DbContext(typeof(ProgrammersNotepadDbContext))]
-    [Migration("20210413161932_Initial")]
+    [Migration("20210415152800_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,8 @@ namespace ProgrammersNotepad.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Content")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

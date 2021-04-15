@@ -5,17 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:listViewModels="clr-namespace:ProgrammersNotepad.ViewModels.Annotations.ListViewModels;assembly=ProgrammersNotepad.ViewModels"
              xmlns:converters="clr-namespace:ProgrammersNotepad.ViewModels.Converters;assembly=ProgrammersNotepad.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance listViewModels:ImageListViewModel}"
              DataContext="{Binding Source={StaticResource ViewModelLocator},Path = ImageListViewModel}">
     <UserControl.Resources>
-        <converters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter" />
+        <converters:PathToImageConverter x:Key="PathToImageConverter" />
     </UserControl.Resources>
     <ListView  ItemsSource="{Binding Models}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <Image Source="{Binding Content, Converter={StaticResource ByteArrayToBitmapImageConverter}}" Width="300"></Image>
+                <Image Source="{Binding FilePath, Converter={StaticResource PathToImageConverter}}" MaxWidth="300"></Image>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.ItemsPanel>

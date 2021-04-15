@@ -6,7 +6,7 @@ namespace ProgrammersNotepad.Models.List
 {
     public class ImageListModel:BaseModel, IImageListModel
     {
-        public byte[] Content { get; set; }
+        public string FilePath { get; set; }
         public NoteListModel Note { get; set; }
     }
 }

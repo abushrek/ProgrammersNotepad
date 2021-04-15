@@ -2,6 +2,6 @@
 {
     public interface IImageModel:IModel
     {
-        public byte[] Content { get; set; }
+        public string FilePath { get; set; }
     }
 }

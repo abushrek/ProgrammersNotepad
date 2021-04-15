@@ -52,12 +52,11 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
             bool? show = dlg.ShowDialog();
             if (show != null && show == true)
             {
-                string fileName;
-                fileName = dlg.FileName;
+                string filePath = dlg.FileName;
                 ImageDetailModel model = new ImageDetailModel()
                 {
                     Id = Guid.NewGuid(),
-                    Content = File.ReadAllBytes(fileName),
+                    FilePath = filePath,
                     Name = "name",
                     Note = Model
                 };

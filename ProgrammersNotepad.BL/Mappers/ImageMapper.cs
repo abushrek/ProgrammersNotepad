@@ -24,7 +24,7 @@ namespace ProgrammersNotepad.BL.Mappers
             {
                 Id =  entity.Id,
                 Name =  entity.Name,
-                Content = entity.Content,
+                FilePath = entity.FilePath,
                 Note = _noteMappper.MapEntityToModel(entity.Note)
             };
         }
@@ -37,7 +37,7 @@ namespace ProgrammersNotepad.BL.Mappers
             {
                 Id =  model.Id,
                 Name = "",
-                Content = model.Content,
+                FilePath = model.FilePath,
                 Note = _noteListMappper.MapModelToEntity(model.Note)
             };
         }
@@ -50,7 +50,7 @@ namespace ProgrammersNotepad.BL.Mappers
             {
                 Id = model.Id,
                 Name = model.Name,
-                Content = model.Content,
+                FilePath = model.FilePath,
                 Note = _noteMappper.MapModelToEntity(model.Note)
             };
         }
@@ -62,7 +62,7 @@ namespace ProgrammersNotepad.BL.Mappers
             return new ImageListModel()
             {
                 Id = entity.Id,
-                Content = entity.Content,
+                FilePath = entity.FilePath,
                 Note = _noteListMappper.MapEntityToModel(entity.Note)
             };
         }

@@ -11,9 +11,9 @@
              d:DataContext="{d:DesignInstance detailViewModels:ImageDetailViewModel}"
              DataContext="{Binding Source={StaticResource ViewModelLocator},Path=ImageDetailViewModel}">
     <UserControl.Resources>
-        <converters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter" />
+        <converters:PathToImageConverter x:Key="PathToImageConverter" />
     </UserControl.Resources>
     <Grid>
-        <Image Source="{Binding Model.Content, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
+        <Image Source="{Binding Model.FilePath, Converter={StaticResource PathToImageConverter}}"></Image>
     </Grid>
 </UserControl>
