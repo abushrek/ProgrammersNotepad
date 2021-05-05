@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using ProgrammersNotepad.BL.Facades.Interfaces;
+using ProgrammersNotepad.BL.Messages;
 using ProgrammersNotepad.BL.Services.Interfaces;
 using ProgrammersNotepad.Common.Commands;
 using ProgrammersNotepad.Models.Detail;
@@ -42,6 +43,7 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
             {
                 Facade.Remove(Model.Id);
             }
+            Mediator.Send(new LogoutMessage());
             Model = null;
         }
     }

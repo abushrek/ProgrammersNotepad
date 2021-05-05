@@ -15,6 +15,10 @@ namespace ProgrammersNotepad.BL.Services
         private readonly IUserFacade<UserDetailModel> _facade;
         private readonly IDetailFacade<UserDetailModel> _detailFacade;
 
+        private const int DefaultSaltLength = 128;
+        private const int DefaultHashLength = 512;
+        private const int DefaultNumberOfPBKDFIterations = 10000;
+
         public AuthService(IUserFacade<UserDetailModel> facade, IDetailFacade<UserDetailModel> detailFacade)
         {
             _facade = facade;
@@ -30,7 +34,7 @@ namespace ProgrammersNotepad.BL.Services
                 throw new UnauthorizedAccessException("Failed to authenticate user.");
             }
 
-            if (!PasswordMatchesToUser(password, storedPassword))
+            if (!PasswordMatchesHashedPassword(password, storedPassword))
             {
                 throw new UnauthorizedAccessException("Failed to authenticate user.");
             }
@@ -44,9 +48,34 @@ namespace ProgrammersNotepad.BL.Services
             return user;
         }
 
-        private bool PasswordMatchesToUser(string pass, string storedPass)
+        private string GetHashedPassword(string password)
         {
-            return pass == storedPass;
+            var salt = new byte[DefaultSaltLength];
+            new RNGCryptoServiceProvider().GetBytes(salt);
+            var pbkdf = new Rfc2898DeriveBytes(password, salt, DefaultNumberOfPBKDFIterations);
+            var hash = pbkdf.GetBytes(DefaultHashLength);
+            var hashWithSalt = new byte[DefaultSaltLength + DefaultHashLength];
+            Array.Copy(salt, 0, hashWithSalt, 0, DefaultSaltLength);
+            Array.Copy(hash, 0, hashWithSalt, DefaultSaltLength, DefaultHashLength);
+            var hashWithSaltString = Convert.ToBase64String(hashWithSalt);
+            return hashWithSaltString;
+        }
+
+        private bool PasswordMatchesHashedPassword(string password, string hashedPassword)
+        {
+            var hash = Convert.FromBase64String(hashedPassword);
+            var salt = new byte[DefaultSaltLength];
+            Array.Copy(hash, 0, salt, 0, DefaultSaltLength);
+            var pkbdf = new Rfc2898DeriveBytes(password, salt, DefaultNumberOfPBKDFIterations);
+            var providedPasswordHash = pkbdf.GetBytes(DefaultHashLength);
+            for (int i = 0; i < DefaultHashLength; i++)
+            {
+                if (hash[i + DefaultSaltLength] != providedPasswordHash[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public UserDetailModel CreateUser(UserDetailModel user)
@@ -55,6 +84,7 @@ namespace ProgrammersNotepad.BL.Services
             {
                 throw new UserExistsException("User already exists.");
             }
+            user.Password = GetHashedPassword(user.Password);
             return _detailFacade.Add(user);
         }
     }

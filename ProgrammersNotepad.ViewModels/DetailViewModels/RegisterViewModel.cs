@@ -40,7 +40,7 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
                 {
                     if (_authService.CreateUser(Model) != null)
                     {
-                        Login();
+                        Login(obj.Password);
                     }
                 }
                 catch (UserExistsException e)
@@ -50,9 +50,9 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
             }
         }
 
-        private void Login()
+        private void Login(string password)
         {
-            _authService.AuthenticateUser(Model.Username, Model.Password);
+            _authService.AuthenticateUser(Model.Username, password);
             AuthenticationPrincipal.TCAPrincipal principal = Thread.CurrentPrincipal as AuthenticationPrincipal.TCAPrincipal;
             if (principal == null)
             {

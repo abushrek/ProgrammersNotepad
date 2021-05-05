@@ -39,6 +39,9 @@ namespace ProgrammersNotepad.ViewModels.DetailViewModels
                 MessageBoxResult.Yes)
             {
                 Facade.RemoveAsync(Model.Id);
+                if (Thread.CurrentPrincipal is AuthenticationPrincipal.TCAPrincipal principal)
+                    principal.Identity = null;
+                Mediator.Send(new LogoutMessage());
             }
         }
 
